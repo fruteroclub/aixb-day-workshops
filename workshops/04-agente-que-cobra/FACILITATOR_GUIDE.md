@@ -18,18 +18,18 @@ Habilita pagos para que tu agente pueda vender sus servicios en un marketplace.
 
 ## Run of show
 
-### 00:00–00:10 — Apertura
+### 00:00–00:03 — Apertura
 
 - Mostrar la transición: agente útil → agente vendible.
 - Definir marketplace, servicio, job, pago y receipt.
 
-### 00:10–00:30 — Why blockchain for payments and identity
+### 00:03–00:08 — Why blockchain for payments and identity
 
 - Explicar identidad/wallet.
 - Explicar pago programable y comprobante.
 - Explicar cuándo no conviene poner todo onchain.
 
-### 00:30–00:50 — PerkOS architecture
+### 00:08–00:13 — PerkOS architecture
 
 - Marketplace/registry.
 - Agent service.
@@ -37,21 +37,21 @@ Habilita pagos para que tu agente pueda vender sus servicios en un marketplace.
 - Job execution.
 - Logs, receipt y delivery.
 
-### 00:50–01:25 — Integrate payments
+### 00:13–00:21 — Integrate payments
 
 - Definir servicio vendible.
 - Agregar paywall/autorización.
 - Verificar pago real/testnet o mock.
 - Ejecutar tarea después de autorización.
 
-### 01:25–01:40 — Marketplace flow
+### 00:21–00:24 — Marketplace flow
 
 - Publicar servicio.
 - Comprar/autorizar.
 - Ejecutar job.
 - Confirmar resultado.
 
-### 01:40–01:45 — Cierre
+### 00:24–00:25 — Cierre
 
 - Nombrar límites: seguridad, compliance, abuso, custody y UX.
 

@@ -18,34 +18,34 @@ Aprende con tu agente a construir servicios web.
 
 ## Run of show
 
-### 00:00–00:10 — Apertura
+### 00:00–00:03 — Apertura
 
 - Explicar que el agente necesita una tarea con límites y verificación.
 - Presentar el Pokémon Trainer Service.
 
-### 00:10–00:25 — Web services
+### 00:03–00:08 — Web services
 
 - Explicar servidor, endpoints, requests, responses, JSON y status codes.
 - Mostrar una llamada curl simple.
 
-### 00:25–00:40 — Diseño del servicio
+### 00:08–00:12 — Diseño del servicio
 
 - Endpoints posibles: health, Pokémon lookup, trainer, battle.
 - Definir qué será real y qué será mock.
 
-### 00:40–01:20 — Build con agente
+### 00:12–00:21 — Build con agente
 
 - Pedir al agente plan de arquitectura.
 - Construir endpoints mínimos.
 - Conectar PokéAPI.
 - Agregar lógica simple de batalla.
 
-### 01:20–01:35 — NFT ownership
+### 00:21–00:24 — NFT ownership
 
 - Explicar wallet/NFT como prueba de acceso o identidad de equipo.
 - Integrar mock o lectura real si hay tiempo.
 
-### 01:35–01:45 — Deploy/demo
+### 00:24–00:25 — Demo
 
 - Ejecutar local o desplegar.
 - Verificar con curl o navegador.

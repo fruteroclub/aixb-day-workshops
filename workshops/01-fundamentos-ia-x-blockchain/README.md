@@ -21,12 +21,12 @@ Personas no técnicas, builders iniciales, founders, operadores, community leads
 
 | Tiempo | Bloque |
 |---|---|
-| 00:00–00:10 | Apertura: qué problema resuelve IA x Blockchain |
-| 00:10–00:30 | AI: the status quo — LLMs, context engineering e inferencia |
-| 00:30–00:45 | Agent harnesses, skills e integraciones |
-| 00:45–01:05 | Blockchain: fundamentos e infraestructura para agentes |
-| 01:05–01:35 | Building with AI: backend básico + LLM provider + blockchain infra |
-| 01:35–01:45 | Cierre: mapa de próximos pasos |
+| 00:00–00:03 | Apertura: qué problema resuelve IA x Blockchain |
+| 00:03–00:08 | AI: the status quo — LLMs, context engineering e inferencia |
+| 00:08–00:12 | Agent harnesses, skills e integraciones |
+| 00:12–00:17 | Blockchain: fundamentos e infraestructura para agentes |
+| 00:17–00:23 | Building with AI: backend básico + LLM provider + blockchain infra |
+| 00:23–00:25 | Cierre: mapa de próximos pasos |
 
 ## Contenido base
 

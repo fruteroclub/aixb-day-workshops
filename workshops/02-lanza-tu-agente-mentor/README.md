@@ -21,12 +21,12 @@ Builders, estudiantes, operadores técnicos y personas que quieren aprender cons
 
 | Tiempo | Bloque |
 |---|---|
-| 00:00–00:10 | Apertura: de chatbot a compañero de construcción |
-| 00:10–00:25 | LLMs vs Harnesses |
-| 00:25–00:45 | Pi Coding Agent fundamentals |
-| 00:45–01:20 | Deploy local Pi Coding Agent |
-| 01:20–01:40 | Usar el agente como mentor: explicar mientras construye |
-| 01:40–01:45 | Cierre y siguiente trabajo del agente |
+| 00:00–00:03 | Apertura: de chatbot a compañero de construcción |
+| 00:03–00:08 | LLMs vs Harnesses |
+| 00:08–00:13 | Pi Coding Agent fundamentals |
+| 00:13–00:21 | Deploy local Pi Coding Agent |
+| 00:21–00:24 | Usar el agente como mentor: explicar mientras construye |
+| 00:24–00:25 | Cierre y siguiente trabajo del agente |
 
 ## Contenido base
 

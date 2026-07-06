@@ -22,12 +22,12 @@ Builders con nociones básicas de terminal o asistentes que completaron el Works
 
 | Tiempo | Bloque |
 |---|---|
-| 00:00–00:10 | Apertura: darle un trabajo concreto al agente |
-| 00:10–00:25 | Web services: servidor, rutas, requests, responses y deployment |
-| 00:25–00:40 | Diseño del Pokémon Trainer Service |
-| 00:40–01:20 | Build con agente: API, endpoints y lógica de batalla |
-| 01:20–01:35 | Conexión NFT/wallet o mock de ownership |
-| 01:35–01:45 | Deploy live o demo local verificable |
+| 00:00–00:03 | Apertura: darle un trabajo concreto al agente |
+| 00:03–00:08 | Web services: servidor, rutas, requests, responses y deployment |
+| 00:08–00:12 | Diseño del Pokémon Trainer Service |
+| 00:12–00:21 | Build con agente: API, endpoints y lógica de batalla |
+| 00:21–00:24 | Conexión NFT/wallet o mock de ownership |
+| 00:24–00:25 | Demo local verificable |
 
 ## Contenido base
 

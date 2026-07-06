@@ -17,37 +17,37 @@ Empieza a construir con una IA que te explica mientras construye lo que le pides
 
 ## Run of show
 
-### 00:00–00:10 — Apertura
+### 00:00–00:03 — Apertura
 
 - Mostrar la diferencia entre pedir respuestas y pedir trabajo verificable.
 - Explicar qué significa “Agente Mentor”.
 
-### 00:10–00:25 — LLMs vs Harnesses
+### 00:03–00:08 — LLMs vs Harnesses
 
 - LLM: modelo.
 - Harness: entorno operativo con archivos, comandos, herramientas y límites.
 - Agente mentor: harness + instrucciones para explicar mientras construye.
 
-### 00:25–00:45 — Pi Coding Agent fundamentals
+### 00:08–00:13 — Pi Coding Agent fundamentals
 
 - Configuración base.
 - Cómo se le da contexto.
 - Cómo pedir plan antes de ejecución.
 - Cómo pedir verificación real.
 
-### 00:45–01:20 — Deploy local Pi Coding Agent
+### 00:13–00:21 — Deploy local Pi Coding Agent
 
 - Instalar o abrir entorno preparado.
 - Correr primera tarea.
 - Revisar archivos o salida generada.
 
-### 01:20–01:40 — Construcción guiada
+### 00:21–00:24 — Construcción guiada
 
 - Pedir una mini app, endpoint o README.
 - Hacer que el agente explique decisiones.
 - Ejecutar una verificación simple.
 
-### 01:40–01:45 — Cierre
+### 00:24–00:25 — Cierre
 
 - Reforzar el ciclo: pedir contexto → pedir plan → ejecutar → verificar.
 

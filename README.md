@@ -47,6 +47,13 @@ Que los asistentes salgan con un mapa práctico de cómo construir con IA y bloc
 - **Separar concepto de herramienta:** primero entender la categoría; luego usar herramientas concretas.
 - **No prometer producción completa:** los demos son rutas de aprendizaje, no sistemas auditados para uso real con dinero.
 
+## Formato operativo
+
+- Cada workshop dura **25 minutos máximo**.
+- Hay **5 minutos entre workshops** para cambio de speaker, conexión de laptop, apertura de demo y reset de sala.
+- Cada workshop debe priorizar una explicación mínima, una demo guiada y un cierre accionable.
+- Si una instalación o integración se atora, el facilitador debe cambiar a demo preparada o mock y proteger el tiempo.
+
 ## Requisitos generales
 
 Para workshops 2–4 se recomienda llegar con:

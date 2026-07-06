@@ -21,12 +21,12 @@ Builders, founders, partners y asistentes técnicos interesados en monetización
 
 | Tiempo | Bloque |
 |---|---|
-| 00:00–00:10 | Apertura: de agente útil a agente comercial |
-| 00:10–00:30 | Why blockchain for payments and identity |
-| 00:30–00:50 | PerkOS architecture |
-| 00:50–01:25 | Integrate payments |
-| 01:25–01:40 | Marketplace flow: publicar, comprar, ejecutar, confirmar |
-| 01:40–01:45 | Cierre: límites y próximos pasos |
+| 00:00–00:03 | Apertura: de agente útil a agente comercial |
+| 00:03–00:08 | Why blockchain for payments and identity |
+| 00:08–00:13 | PerkOS architecture |
+| 00:13–00:21 | Integrate payments |
+| 00:21–00:24 | Marketplace flow: publicar, comprar, ejecutar, confirmar |
+| 00:24–00:25 | Cierre: límites y próximos pasos |
 
 ## Contenido base
 
