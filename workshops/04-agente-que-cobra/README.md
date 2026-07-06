@@ -57,5 +57,6 @@ Un flujo mínimo donde un usuario paga o presenta prueba de pago/identidad para 
 
 ## Archivos
 
+- [`SLIDES.md`](SLIDES.md) — estructura propuesta de presentación y pasos técnicos de alto nivel.
 - [`FACILITATOR_GUIDE.md`](FACILITATOR_GUIDE.md) — guía de facilitación, ritmo, riesgos y criterios de éxito.
 - [`EXERCISES.md`](EXERCISES.md) — ejercicios y prompts para asistentes.

@@ -75,18 +75,22 @@ For workshops 2–4, participants should ideally arrive with:
 └── workshops/
     ├── 01-fundamentos-ia-x-blockchain/
     │   ├── README.md
+    │   ├── SLIDES.md
     │   ├── FACILITATOR_GUIDE.md
     │   └── EXERCISES.md
     ├── 02-lanza-tu-agente-mentor/
     │   ├── README.md
+    │   ├── SLIDES.md
     │   ├── FACILITATOR_GUIDE.md
     │   └── EXERCISES.md
     ├── 03-dale-un-trabajo-a-tu-agente/
     │   ├── README.md
+    │   ├── SLIDES.md
     │   ├── FACILITATOR_GUIDE.md
     │   └── EXERCISES.md
     └── 04-agente-que-cobra/
         ├── README.md
+        ├── SLIDES.md
         ├── FACILITATOR_GUIDE.md
         └── EXERCISES.md
 ```
