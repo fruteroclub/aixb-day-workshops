@@ -1,73 +1,73 @@
 # AI x Blockchain Day Workshops
 
-Repositorio de materiales para la ruta práctica de workshops de **AI x Blockchain Day**.
+Repository for the practical workshop track of **AI x Blockchain Day**.
 
-La programación está diseñada para personas que quieren entender y construir en la intersección de inteligencia artificial, agentes y blockchain sin asumir conocimiento técnico avanzado. Cada workshop funciona por separado, pero los cuatro juntos forman una ruta completa:
+The program is designed for people who want to understand and build at the intersection of artificial intelligence, agents, and blockchain without assuming advanced technical knowledge. Each workshop can stand alone, but together they form a complete progression:
 
 ```text
-Fundamentos IA x Blockchain
+AI x Blockchain Fundamentals
         ↓
-Lanza tu propio Agente Mentor
+Launch Your Own Mentor Agent
         ↓
-Dale un trabajo a tu Agente
+Give Your Agent a Job
         ↓
-Un Agente que cobra por trabajo
+An Agent That Gets Paid for Work
 ```
 
-## Objetivo de la ruta
+## Track objective
 
-Que los asistentes salgan con un mapa práctico de cómo construir con IA y blockchain:
+Participants should leave with a practical map for building with AI and blockchain:
 
-1. Entender el estado actual de IA, agentes y blockchain.
-2. Levantar un agente local que pueda explicar mientras construye.
-3. Usar el agente para crear servicios web conectados a APIs e infraestructura blockchain.
-4. Integrar identidad y pagos para que un agente pueda vender o cobrar por trabajo.
+1. Understand the current state of AI, agents, and blockchain.
+2. Launch a local agent that can explain while it builds.
+3. Use the agent to create web services connected to APIs and blockchain infrastructure.
+4. Integrate identity and payments so an agent can sell or charge for work.
 
 ## Workshops
 
-| # | Workshop | Promesa | Directorio |
+| # | Workshop | Promise | Directory |
 |---|---|---|---|
-| 1 | Fundamentos IA x Blockchain | Aprende cómo funcionan estas tecnologías de frontera sin conocimiento técnico. | [`workshops/01-fundamentos-ia-x-blockchain`](workshops/01-fundamentos-ia-x-blockchain/) |
-| 2 | Lanza tu propio Agente Mentor | Empieza a construir con una IA que te explica mientras construye lo que le pides. | [`workshops/02-lanza-tu-agente-mentor`](workshops/02-lanza-tu-agente-mentor/) |
-| 3 | Dale un trabajo a tu Agente | Aprende con tu agente a construir servicios web. | [`workshops/03-dale-un-trabajo-a-tu-agente`](workshops/03-dale-un-trabajo-a-tu-agente/) |
-| 4 | Un Agente que cobra por trabajo | Habilita pagos para que tu agente pueda vender sus servicios en un marketplace. | [`workshops/04-agente-que-cobra`](workshops/04-agente-que-cobra/) |
+| 1 | AI x Blockchain Fundamentals | Learn how these frontier technologies work without technical background. | [`workshops/01-fundamentos-ia-x-blockchain`](workshops/01-fundamentos-ia-x-blockchain/) |
+| 2 | Launch Your Own Mentor Agent | Start building with an AI that explains while it builds what you ask for. | [`workshops/02-lanza-tu-agente-mentor`](workshops/02-lanza-tu-agente-mentor/) |
+| 3 | Give Your Agent a Job | Learn with your agent how to build web services. | [`workshops/03-dale-un-trabajo-a-tu-agente`](workshops/03-dale-un-trabajo-a-tu-agente/) |
+| 4 | An Agent That Gets Paid for Work | Enable payments so your agent can sell its services in a marketplace. | [`workshops/04-agente-que-cobra`](workshops/04-agente-que-cobra/) |
 
-## Público recomendado
+## Recommended audience
 
-- Builders y founders que quieren construir productos con IA.
-- Personas no técnicas que necesitan entender el stack sin perderse en jerga.
-- Desarrolladores que quieren conectar agentes, APIs y blockchain.
-- Comunidades y partners que quieren activar casos prácticos después del evento.
+- Builders and founders who want to build AI products.
+- Non-technical participants who need to understand the stack without getting lost in jargon.
+- Developers who want to connect agents, APIs, and blockchain.
+- Communities and partners who want to activate practical use cases after the event.
 
-## Principios didácticos
+## Teaching principles
 
-- **Explicar sin infantilizar:** usar lenguaje simple sin quitar precisión.
-- **Construir pronto:** cada sesión debe aterrizar en un artefacto, mapa o demo.
-- **Usar agentes como copilotos:** los asistentes aprenden junto a un agente, no solo escuchan teoría.
-- **Separar concepto de herramienta:** primero entender la categoría; luego usar herramientas concretas.
-- **No prometer producción completa:** los demos son rutas de aprendizaje, no sistemas auditados para uso real con dinero.
+- **Explain without dumbing down:** use simple language without losing precision.
+- **Build early:** each session should land in an artifact, map, or demo.
+- **Use agents as copilots:** participants learn alongside an agent, not only through lecture.
+- **Separate category from tool:** first understand the concept; then use concrete tools.
+- **Do not promise production-ready systems:** demos are learning paths, not audited systems for real-money usage.
 
-## Formato operativo
+## Operating format
 
-- Cada workshop dura **25 minutos máximo**.
-- Hay **5 minutos entre workshops** para cambio de speaker, conexión de laptop, apertura de demo y reset de sala.
-- Cada workshop debe priorizar una explicación mínima, una demo guiada y un cierre accionable.
-- Si una instalación o integración se atora, el facilitador debe cambiar a demo preparada o mock y proteger el tiempo.
+- Each workshop is **25 minutes maximum**.
+- There are **5 minutes between workshops** for speaker switch, laptop connection, demo setup, and room reset.
+- Each workshop should prioritize a minimal explanation, a guided demo, and an actionable close.
+- If an installation or integration gets stuck, the facilitator should switch to a prepared demo or mock and protect the schedule.
 
-## Requisitos generales
+## General requirements
 
-Para workshops 2–4 se recomienda llegar con:
+For workshops 2–4, participants should ideally arrive with:
 
-- Laptop con terminal.
-- Git instalado.
-- Node.js LTS o runtime compatible con el stack elegido por facilitadores.
-- Cuenta en GitHub.
-- Acceso a un proveedor LLM o credencial provista por el evento.
-- Wallet de prueba o testnet si el facilitador decide activar pagos/identidad en vivo.
+- Laptop with terminal access.
+- Git installed.
+- Node.js LTS or a runtime compatible with the stack chosen by facilitators.
+- GitHub account.
+- Access to an LLM provider or event-provided credentials.
+- Test wallet or testnet access if the facilitator activates live payments/identity.
 
-> Nota: los facilitadores pueden adaptar el stack final. Este repositorio define la estructura pedagógica y los entregables mínimos.
+> Note: facilitators can adapt the final stack. This repository defines the pedagogical structure and minimum deliverables.
 
-## Estructura del repositorio
+## Repository structure
 
 ```text
 .
@@ -91,6 +91,6 @@ Para workshops 2–4 se recomienda llegar con:
         └── EXERCISES.md
 ```
 
-## Estado
+## Status
 
-Borrador inicial para revisión de Mel y facilitadores.
+Initial draft for review by Mel and facilitators.
