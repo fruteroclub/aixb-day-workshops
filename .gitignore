@@ -1,0 +1,18 @@
+# OS/editor
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Dependencies/builds
+node_modules/
+dist/
+build/
+.next/
+.cache/
+
+# Logs
+*.log
