@@ -1,7 +1,17 @@
-# Slide Structure — Un Agente que cobra por trabajo
+# Slide Structure - Un Agente que cobra por trabajo
 
 **Duration:** 25 minutes max  
 **Goal:** Show how a useful agent becomes a commercial service by adding identity, payment authorization, job execution, and receipt/delivery flow.
+
+## Slide production notes
+
+- Match the landing brand: dark background, Space Grotesk headings, mono labels,
+  cyan for system structure, rosa only for the action mark.
+- Use the event name exactly: **AI x Blockchain Day**.
+- Keep copy concrete and payment-flow focused.
+- Include one architecture diagram: marketplace/registry -> payment/identity ->
+  agent service -> job execution -> receipt.
+- Include one proof slide with unpaid rejection and authorized execution.
 
 ## Slide structure
 
@@ -17,7 +27,7 @@
 | 8 | Production risks | Name custody, compliance, abuse, pricing, permissions, UX, and logs. | 1 min |
 | 9 | Close: marketplace next steps | Summarize how this becomes a marketplace primitive. | 1 min |
 
-## Technical steps — high-level ordered list
+## Technical steps - high-level ordered list
 
 1. Choose a simple agent service that can be sold as a job.
 2. Define the marketplace listing fields: service name, price, input, output, and execution limit.
@@ -39,3 +49,14 @@
 - Keep compliance boundaries explicit: this is a technical learning demo, not production payment infrastructure.
 - The audience should leave understanding the pattern, not every marketplace detail.
 - Connect back to Workshop 3: the same service can become paid once identity/payment gates are added.
+
+## Required close slide
+
+```text
+Proof:
+without payment -> reject
+with valid receipt or mock-valid -> execute
+
+Production replacement:
+testnet, payment provider, onchain check, gateway or registry
+```

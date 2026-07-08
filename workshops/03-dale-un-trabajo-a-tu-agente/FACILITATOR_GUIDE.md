@@ -1,66 +1,91 @@
-# Facilitator Guide — Dale un trabajo a tu Agente
+# Facilitator Guide - Give Your Agent a Job
 
 ## Intención de facilitación
 
-Esta sesión debe demostrar que un agente se vuelve más útil cuando recibe un trabajo concreto y verificable. El trabajo del día es construir un servicio web: Pokémon Trainer Service, conectado a PokéAPI y preparado para representar batallas con Pokémon NFTs reales o simulados.
+La sesión debe mostrar cómo un agente se vuelve útil cuando tiene un trabajo
+concreto. El trabajo es Builder Mentor API: tomar un repo de GitHub y convertir
+metadata técnica en recomendaciones para un builder usando Nebius Token Factory.
 
 ## Promesa al asistente
 
-Aprende con tu agente a construir servicios web.
+Construye un servicio AI-native con inputs claros, output valioso y API reusable.
 
 ## Antes de iniciar
 
-- Ten un servicio base listo para demo.
-- Verifica acceso a PokéAPI.
-- Define si el NFT ownership será real, testnet o mock.
-- Ten comandos curl preparados.
-- Define alternativa de deploy: live, local, tunnel o demo del facilitador.
+- Ten Node.js 20 validado.
+- Ten el tutorial abierto.
+- Ten un repo público de prueba, por ejemplo `honojs/hono`.
+- Ten `GITHUB_TOKEN` read-only opcional.
+- Ten `NEBIUS_API_KEY` y `NEBIUS_MODEL` opcionales.
+- Ten fixture fallback listo.
+
+## Materiales preparados
+
+- Hono Builder Mentor API.
+- Curl commands para `health`, `repo` y `mentor`.
+- Prompt de Pi para construir el servicio si se hará live.
+- Nebius key oculta.
+- GitHub token oculto.
+
+## Contrato de demo
+
+| Endpoint | Qué debe verse |
+|---|---|
+| `GET /health` | El servicio Hono está vivo. |
+| `GET /repo/:owner/:repo` | Metadata del repo desde GitHub o fixture. |
+| `POST /mentor` | Recomendación o plan de acción para un builder. |
 
 ## Run of show
 
-### 00:00–00:03 — Apertura
+### 00:00-00:03 - Apertura
 
-- Explicar que el agente necesita una tarea con límites y verificación.
-- Presentar el Pokémon Trainer Service.
+- Recordar que Workshop 2 conectó el harness.
+- Explicar que hoy el agente recibe un trabajo real.
 
-### 00:03–00:08 — Web services
+### 00:03-00:07 - AI service pattern
 
-- Explicar servidor, endpoints, requests, responses, JSON y status codes.
-- Mostrar una llamada curl simple.
+- External data.
+- AI reasoning.
+- Added value.
 
-### 00:08–00:12 — Diseño del servicio
+### 00:07-00:11 - Builder Mentor API
 
-- Endpoints posibles: health, Pokémon lookup, trainer, battle.
-- Definir qué será real y qué será mock.
+- Input: GitHub repo + goal.
+- Output: summary, strengths, opportunities and action plan.
 
-### 00:12–00:21 — Build con agente
+### 00:11-00:21 - Build con Hono
 
-- Pedir al agente plan de arquitectura.
-- Construir endpoints mínimos.
-- Conectar PokéAPI.
-- Agregar lógica simple de batalla.
+- Crear Hono service.
+- Agregar GitHub integration.
+- Agregar Nebius reasoning.
+- Agregar fixture fallbacks.
 
-### 00:21–00:24 — NFT ownership
+### 00:21-00:24 - Verificación
 
-- Explicar wallet/NFT como prueba de acceso o identidad de equipo.
-- Integrar mock o lectura real si hay tiempo.
+```bash
+curl http://localhost:3003/health
+curl http://localhost:3003/repo/honojs/hono
+curl -X POST http://localhost:3003/mentor \
+  -H "Content-Type: application/json" \
+  -d '{"owner":"honojs","repo":"hono","goal":"I want to learn how this project structures APIs."}'
+```
 
-### 00:24–00:25 — Demo
+### 00:24-00:25 - Cierre
 
-- Ejecutar local o desplegar.
-- Verificar con curl o navegador.
+- El servicio ya entrega valor.
+- Workshop 4 lo convierte en trabajo pagado o autorizado.
 
 ## Criterios de éxito
 
-- Hay un endpoint verificable.
-- El servicio consulta o simula datos Pokémon.
-- Existe una lógica simple de batalla.
-- El rol del NFT/wallet está definido, aunque sea mock.
-- El asistente entiende cómo pedirle trabajo concreto a su agente.
+- El asistente entiende qué hace un AI-native service.
+- El servicio tiene inputs claros.
+- GitHub y Nebius están etiquetados como `live` o `fixture`.
+- Los tres curl commands funcionan.
+- No se agregaron sistemas fuera del scope.
 
 ## Riesgos y mitigaciones
 
-- **PokéAPI cae:** usar fixture JSON local.
-- **Deploy tarda:** mostrar demo local.
-- **Blockchain complica la sesión:** usar mock explícito para ownership NFT.
-- **Agente intenta construir demasiado:** reducir a health + Pokémon lookup + battle.
+- **GitHub rate limit:** usar fixture.
+- **Nebius key falla:** usar fixture.
+- **Pi tarda demasiado:** usar implementación preparada.
+- **Se quiere agregar UI:** posponer para después del workshop.

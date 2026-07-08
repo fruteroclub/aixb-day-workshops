@@ -1,36 +1,73 @@
-# Exercises — Lanza tu propio Agente Mentor
+# Exercises - Launch Your Agent
 
-## Ejercicio 1 — LLM vs Harness
+## Ejercicio 1 - LLM vs Agent
 
-Escribe tres diferencias entre usar un chat y usar un coding agent local.
+Escribe tres diferencias entre un LLM y un agente.
 
 1. 
 2. 
 3. 
 
-## Ejercicio 2 — Primer prompt de agente mentor
+## Ejercicio 2 - Integration map
 
-```text
-Actúa como mi Agente Mentor. Voy a construir una app pequeña. Primero inspecciona el proyecto o, si está vacío, propón una estructura mínima. No edites archivos todavía. Explícame el plan en pasos cortos y dime cómo vamos a verificar que funciona.
+Completa la función de cada pieza:
+
+| Pieza | Función |
+|---|---|
+| Pi Coding Agent |  |
+| Nebius Token Factory |  |
+| Blockchain wallet |  |
+| GitHub |  |
+| Vercel |  |
+| Telegram |  |
+
+## Ejercicio 3 - Integration labels
+
+Marca el estado de cada integración en tu demo:
+
+| Integración | Estado |
+|---|---|
+| Nebius | `live` / `fixture` / `missing` |
+| Wallet | `fixture` / `missing` |
+| GitHub | `live` / `fixture` / `missing` |
+| Vercel | `configured` / `missing` |
+| Telegram | `live` / `fixture` / `missing` |
+
+## Ejercicio 4 - GitHub proof
+
+Corre o observa:
+
+```bash
+curl http://localhost:3002/github/repo/honojs/hono
 ```
-
-## Ejercicio 3 — Primera tarea
-
-Pide al agente una tarea pequeña:
-
-```text
-Crea una mini aplicación o endpoint de ejemplo. Manténlo simple. Después explícame qué archivos creaste, cómo se ejecuta y qué comando debo usar para verificarlo.
-```
-
-## Ejercicio 4 — Verificación
 
 Responde:
 
-1. ¿Qué creó el agente?
-2. ¿Qué comando o prueba verifica que funciona?
-3. ¿Qué explicó bien?
-4. ¿Qué deberías pedirle mejor la próxima vez?
+1. ¿La integración fue `live` o `fixture`?
+2. ¿Qué repo se consultó?
+3. ¿Qué dato usaría un agente para empezar a trabajar?
 
-## Ejercicio 5 — Prompt reusable
+## Ejercicio 5 - Agent brief
 
-Escribe tu prompt personal para usar el agente como mentor en el próximo workshop.
+Corre o observa:
+
+```bash
+curl -X POST http://localhost:3002/agent/brief \
+  -H "Content-Type: application/json" \
+  -d '{"owner":"honojs","repo":"hono","goal":"Understand this repo as a builder."}'
+```
+
+Responde:
+
+1. ¿Qué recibió el agente como objetivo?
+2. ¿Qué integración dio el contexto de código?
+3. ¿Qué integración dio el razonamiento?
+4. ¿Cuál es el siguiente paso del agente?
+
+## Entrega esperada
+
+Debes poder completar esta frase:
+
+```text
+Pi builds. Nebius reasons. Wallet identifies. GitHub provides code. Vercel deploys. Telegram communicates.
+```

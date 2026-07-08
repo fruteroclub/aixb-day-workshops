@@ -1,39 +1,77 @@
-# Slide Structure — Lanza tu propio Agente Mentor
+# Slide Structure - Launch Your Agent
 
 **Duration:** 25 minutes max  
-**Goal:** Help participants understand the difference between an LLM and an agent harness, then show the path to running a local Pi Coding Agent that explains while it builds.
+**Goal:** Move from an application that can reason to an agent runtime that can act.
+
+## Slide production notes
+
+- Match the landing brand: dark background, Space Grotesk headings, mono labels,
+  cyan for system structure, rosa only for the action mark.
+- Use the event name exactly: **AI x Blockchain Day**.
+- Keep copy concrete and operator-focused.
+- Include one diagram of the integration server.
+- Include one proof slide showing integration status from the Hono integration server.
 
 ## Slide structure
 
 | # | Slide | Purpose | Timing |
 |---|---|---|---|
-| 1 | Title: Lanza tu propio Agente Mentor | Set the promise: build with an AI that explains while it works. | 1 min |
-| 2 | From chatbot to operating partner | Show why a chat interface is not enough for real project work. | 3 min |
-| 3 | LLMs vs harnesses | Define model vs runtime/environment/tools/permissions. | 4 min |
-| 4 | What makes an agent a mentor? | Explain planning, teaching, editing, verifying, and reflecting. | 3 min |
-| 5 | Pi Coding Agent fundamentals | Show the core components: model, config, project context, tools, command loop. | 4 min |
-| 6 | Local setup path | Walk through the setup checklist at a high level. | 3 min |
-| 7 | First task demo | Show the agent creating or changing a small project artifact. | 5 min |
-| 8 | Good prompts for agent work | Give reusable prompt patterns: inspect, plan, build, verify, explain. | 1 min |
-| 9 | Close: next job for the agent | Connect to Workshop 3: giving the agent a real web-service task. | 1 min |
+| 1 | Title: Launch Your Agent | Set the promise: turning intelligence into action. | 1 min |
+| 2 | Last time | Remind the audience that Workshop 1 gave the app a brain. | 2 min |
+| 3 | The evolution of software | Compute -> reason -> act -> participate. | 2 min |
+| 4 | LLMs are not agents | Define answer generation vs goal execution. | 3 min |
+| 5 | What makes an agent? | Goals, tools, files, external systems and iteration. | 3 min |
+| 6 | The agent runtime | Explain the runtime around the model. | 3 min |
+| 7 | Pi Coding Agent | Introduce Pi as the builder agent. | 3 min |
+| 8 | Today's integration map | Show Pi + Nebius + wallet + GitHub + Vercel + Telegram. | 3 min |
+| 9 | Build | Walk through the six build steps. | 4 min |
+| 10 | Close: next job for the agent | Connect to Workshop 3: Builder Mentor API. | 1 min |
 
-## Technical steps — high-level ordered list
+## Technical steps - ordered list
 
-1. Confirm local prerequisites: terminal, Git, runtime, and any required package manager.
-2. Install or open Pi Coding Agent according to the facilitator-approved setup path.
-3. Configure the LLM provider or event-provided credentials.
-4. Create or open a small project directory for the demo.
-5. Start the Pi Coding Agent inside that project context.
-6. Ask the agent to inspect the current project or propose a minimal structure.
-7. Ask the agent for a plan before it edits files.
-8. Ask the agent to create one small artifact, such as a README, simple script, or endpoint scaffold.
-9. Ask the agent to explain what it changed.
-10. Run the verification command or inspect the generated output.
-11. Ask the agent what the next build step should be.
+1. Deploy Pi Coding Agent.
+2. Connect Nebius Token Factory.
+3. Create a blockchain wallet.
+4. Connect GitHub.
+5. Connect Vercel.
+6. Connect Telegram.
+
+## Required architecture slide
+
+```text
+Pi Coding Agent
+        |
+        |-- Nebius Token Factory
+        |       Reasoning
+        |
+        |-- Blockchain Wallet
+        |       Identity
+        |
+        |-- GitHub
+        |       Code
+        |
+        |-- Vercel
+        |       Deployment
+        |
+        `-- Telegram
+                Communication
+```
 
 ## Speaker notes
 
-- Do not spend the whole session on installation.
-- The strongest demo is a short edit with visible verification.
-- Emphasize that good operators ask the agent for a plan before execution.
-- If setup fails, switch to projected pair-programming with one working local environment.
+- Pi Coding Agent is installed during the workshop, not required before it.
+- Do not spend the whole session debugging installs.
+- Use the Hono integration server as the proof surface.
+- Label every integration as `live`, `configured`, `fixture`, `mock` or `missing`.
+- If setup fails, switch to the speaker machine and continue with fixtures.
+
+## Required close slide
+
+```text
+Pi builds.
+Nebius reasons.
+Wallet identifies.
+GitHub provides code.
+Vercel deploys.
+Telegram communicates.
+```

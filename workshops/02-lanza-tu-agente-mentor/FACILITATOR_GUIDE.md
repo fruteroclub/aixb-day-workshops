@@ -1,65 +1,106 @@
-# Facilitator Guide — Lanza tu propio Agente Mentor
+# Facilitator Guide - Launch Your Agent
 
 ## Intención de facilitación
 
-La sesión debe mover a la audiencia de “uso un chat” a “opero un agente dentro de un proyecto”. El foco está en Pi Coding Agent como harness local que explica, planea, construye y verifica.
+La sesión debe mover a la audiencia de "nuestra app puede razonar" a "nuestro
+agente tiene integraciones para actuar". El foco es Pi Coding Agent como builder
+y un servidor Hono de integraciones como superficie verificable.
 
 ## Promesa al asistente
 
-Empieza a construir con una IA que te explica mientras construye lo que le pides.
+Convierte tu aplicación en un agente conectando sus integraciones.
 
 ## Antes de iniciar
 
-- Ten instrucciones de instalación validadas en la máquina del facilitador.
-- Ten un proyecto de ejemplo simple.
-- Ten credenciales/modelo configurado o alternativa de demo.
-- Ten un fallback grabado o walkthrough si hay problemas de internet.
+- Ten Node.js 20 validado.
+- Ten el comando de instalación de Pi probado en la máquina del speaker.
+- Ten un modelo Nebius y API key listos si habrá demo live.
+- Ten un repo público de GitHub para pruebas.
+- Ten Vercel y Telegram preparados solo si el speaker los activará en vivo.
+- Ten el modo fixture listo para todas las integraciones.
+
+## Materiales preparados
+
+- Tutorial abierto en `TUTORIAL.md`.
+- Proyecto de servidor Hono de integraciones listo o comandos preparados.
+- API key de Nebius no visible en pantalla.
+- GitHub token read-only opcional.
+- Bot de Telegram opcional.
+- Cuenta de Vercel opcional.
+
+## Contrato de demo
+
+| Paso | Qué debe verse |
+|---|---|
+| Deploy Pi | Pi se instala o se abre desde la máquina del speaker. |
+| Nebius | El servidor de integraciones reporta `live` o `fixture`. |
+| Wallet | Se genera una identidad `fixture`, sin fondos y sin mainnet. |
+| GitHub | `GET /github/repo/:owner/:repo` devuelve metadata o fixture. |
+| Vercel | El servidor de integraciones reporta `configured` o `missing`. |
+| Telegram | El servidor de integraciones envía test live o responde fixture. |
 
 ## Run of show
 
-### 00:00–00:03 — Apertura
+### 00:00-00:03 - Apertura
 
-- Mostrar la diferencia entre pedir respuestas y pedir trabajo verificable.
-- Explicar qué significa “Agente Mentor”.
+- Recordar que Workshop 1 dio razonamiento a la app.
+- Presentar el objetivo: ahora necesita actuar.
 
-### 00:03–00:08 — LLMs vs Harnesses
+### 00:03-00:07 - LLMs vs agents
 
-- LLM: modelo.
-- Harness: entorno operativo con archivos, comandos, herramientas y límites.
-- Agente mentor: harness + instrucciones para explicar mientras construye.
+- LLM: responde.
+- Agent: persigue objetivos y opera herramientas.
+- La diferencia clave es ejecución.
 
-### 00:08–00:13 — Pi Coding Agent fundamentals
+### 00:07-00:10 - Agent runtime
 
-- Configuración base.
-- Cómo se le da contexto.
-- Cómo pedir plan antes de ejecución.
-- Cómo pedir verificación real.
+- Modelo.
+- Contexto.
+- Skills.
+- Tools e integraciones.
+- Memoria.
+- Execution loops.
+- Guardrails.
+- Observabilidad.
 
-### 00:13–00:21 — Deploy local Pi Coding Agent
+### 00:10-00:22 - Build
 
-- Instalar o abrir entorno preparado.
-- Correr primera tarea.
-- Revisar archivos o salida generada.
+1. Deploy Pi Coding Agent.
+2. Connect Nebius Token Factory.
+3. Create a blockchain wallet.
+4. Connect GitHub.
+5. Connect Vercel.
+6. Connect Telegram.
 
-### 00:21–00:24 — Construcción guiada
+### 00:22-00:25 - Verificación y cierre
 
-- Pedir una mini app, endpoint o README.
-- Hacer que el agente explique decisiones.
-- Ejecutar una verificación simple.
+- Correr `GET /integrations`.
+- Correr `GET /github/repo/honojs/hono`.
+- Correr `POST /agent/brief`.
+- Cerrar conectando con Workshop 3.
 
-### 00:24–00:25 — Cierre
+## Prueba visible
 
-- Reforzar el ciclo: pedir contexto → pedir plan → ejecutar → verificar.
+```bash
+curl http://localhost:3002/integrations
+curl http://localhost:3002/github/repo/honojs/hono
+curl -X POST http://localhost:3002/agent/brief \
+  -H "Content-Type: application/json" \
+  -d '{"owner":"honojs","repo":"hono","goal":"Understand this repo as a builder."}'
+```
 
 ## Criterios de éxito
 
-- El asistente entiende por qué el harness importa.
-- El asistente tiene un agente local listo o entiende el camino exacto para instalarlo.
-- El agente produjo o modificó un artefacto verificable.
-- El asistente sabe pedir explicación y verificación.
+- Pi no fue tratado como prerequisito.
+- El asistente entiende qué hace cada integración.
+- El servidor Hono de integraciones prueba el estado de integraciones.
+- Ningún secret fue proyectado.
+- Cada integración está etiquetada.
 
 ## Riesgos y mitigaciones
 
-- **Instalación falla:** usar pair programming proyectado.
-- **Credenciales faltantes:** usar modelo/proveedor común o demo del facilitador.
-- **El agente hace cambios confusos:** pausar y pedir plan/explicación antes de editar.
+- **Pi install falla:** usar máquina del speaker.
+- **Nebius falla:** fixture.
+- **GitHub rate limit:** usar fixture o token read-only.
+- **Vercel login tarda:** marcar `missing` y continuar.
+- **Telegram no está listo:** fixture.

@@ -1,47 +1,75 @@
-# Exercises — Dale un trabajo a tu Agente
+# Exercises - Give Your Agent a Job
 
-## Ejercicio 1 — Define el trabajo
+## Ejercicio 1 - AI service pattern
 
-Completa:
-
-```text
-Quiero que mi agente construya un servicio web que permita a un usuario __________ usando datos de Pokémon y una prueba de ownership NFT.
-```
-
-## Ejercicio 2 — Prompt de arquitectura
+Completa el patrón:
 
 ```text
-Actúa como mi agente mentor. Diseña un Pokémon Trainer Service mínimo. Necesito endpoints para health check, consultar un Pokémon, crear o simular un trainer, y resolver una batalla. Primero dame la arquitectura y los comandos de verificación. No edites todavía.
+External data -> __________ -> Added value
 ```
 
-## Ejercicio 3 — Prompt de construcción
+¿Cuál es el external data del Builder Mentor API?
 
-```text
-Construye la versión mínima del Pokémon Trainer Service. Requisitos:
-- Endpoint GET /health
-- Endpoint GET /pokemon/:name que consulte PokéAPI o use fixture si falla
-- Endpoint POST /battle que reciba dos Pokémon y devuelva ganador por stats simples
-- Mock claro para ownership NFT o wallet
-- Comandos curl para verificar cada endpoint
-```
+## Ejercicio 2 - Input y output
 
-## Ejercicio 4 — Verificación
+Input del servicio:
 
-Ejecuta o documenta:
+1.
+2.
+
+Output del servicio:
+
+1.
+2.
+3.
+
+## Ejercicio 3 - GitHub proof
+
+Corre o observa:
 
 ```bash
-curl http://localhost:PORT/health
-curl http://localhost:PORT/pokemon/pikachu
-curl -X POST http://localhost:PORT/battle \
-  -H "Content-Type: application/json" \
-  -d '{"pokemonA":"pikachu","pokemonB":"charmander"}'
+curl http://localhost:3003/repo/honojs/hono
 ```
 
-## Ejercicio 5 — Siguiente versión
+Responde:
 
-Define qué harías para convertir el mock NFT en integración real:
+1. ¿La integración fue `live` o `fixture`?
+2. ¿Qué lenguaje principal reportó?
+3. ¿Qué dato usarías para orientar a un builder?
 
-1. Red o chain.
-2. Contrato o colección NFT.
-3. Método de verificación.
-4. Riesgo principal.
+## Ejercicio 4 - Mentor proof
+
+Corre o observa:
+
+```bash
+curl -X POST http://localhost:3003/mentor \
+  -H "Content-Type: application/json" \
+  -d '{"owner":"honojs","repo":"hono","goal":"I want to learn how this project structures APIs."}'
+```
+
+Responde:
+
+1. ¿Qué goal recibió el servicio?
+2. ¿Qué recomendación fue más útil?
+3. ¿GitHub fue `live` o `fixture`?
+4. ¿Nebius fue `live` o `fixture`?
+
+## Ejercicio 5 - Diseña otro job
+
+Escribe otro servicio que un agente podría ofrecer.
+
+```text
+Input:
+External data:
+AI reasoning:
+Output:
+Who benefits:
+```
+
+## Entrega esperada
+
+Debes poder explicar:
+
+```text
+The Builder Mentor API turns GitHub repository data into practical guidance for a software builder.
+```

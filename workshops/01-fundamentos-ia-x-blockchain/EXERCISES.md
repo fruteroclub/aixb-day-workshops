@@ -1,44 +1,59 @@
-# Exercises — Fundamentos IA x Blockchain
+# Exercises - Fundamentos IA x Blockchain
 
-## Ejercicio 1 — Mapa del stack
+## Ejercicio 1 - Mapa del stack
 
-Completa esta frase para cada pieza:
+Completa la función de cada pieza:
 
-- Un LLM sirve para...
-- Context engineering sirve para...
-- Un agent harness sirve para...
-- Una skill/integration sirve para...
-- Blockchain sirve para agentes cuando...
-- Un backend conecta...
-
-## Ejercicio 2 — Clasifica el sistema
-
-Lee este caso:
-
-> Un usuario pide a un agente que revise una wallet, consulte datos de una API, genere una recomendación y cobre por entregar el resultado.
-
-Marca qué pieza resuelve cada parte:
-
-| Necesidad | Pieza del stack |
+| Pieza | Función |
 |---|---|
-| Entender la instrucción | |
-| Acceder a datos externos | |
-| Mantener permisos/contexto | |
-| Verificar identidad/wallet | |
-| Cobrar o registrar transacción | |
-| Entregar resultado | |
+| Application |  |
+| Hono backend |  |
+| Nebius Token Factory |  |
+| Agent harness |  |
+| Blockchain infra |  |
 
-## Ejercicio 3 — Prompt para construir con IA
+## Ejercicio 2 - Live o fixture
+
+Marca el modo de cada parte en la demo:
+
+| Parte | Estado |
+|---|---|
+| `GET /health` | `live` |
+| `GET /stack` | `fixture` |
+| `POST /reason` | `live` / `fixture` |
+
+## Ejercicio 3 - Primer prompt
+
+Escribe un prompt para pedirle a la API que explique una pieza del stack:
 
 ```text
-Actúa como mi agente mentor. Explícame el stack mínimo para una app que conecte IA y blockchain. Luego propón un backend de demo con dos endpoints: uno que llame a un LLM y otro que consulte datos de blockchain o use un mock claro.
+
 ```
 
-## Ejercicio 4 — Verificación
+## Ejercicio 4 - Verificación
 
-Antes de terminar, responde:
+Observa o corre:
 
-1. ¿Qué pieza de IA se usó?
-2. ¿Qué pieza blockchain se usó o simuló?
-3. ¿Qué hace el backend?
-4. ¿Qué falta para producción?
+```bash
+curl http://localhost:3001/health
+curl http://localhost:3001/stack
+curl -X POST http://localhost:3001/reason \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"Explica por qué una app de IA necesita un backend."}'
+```
+
+Responde:
+
+1. ¿Qué prueba `GET /health`?
+2. ¿Qué muestra `GET /stack`?
+3. ¿Nebius está `live` o `fixture`?
+4. ¿Qué pieza conectaremos en Workshop 2?
+
+## Entrega esperada
+
+Debes poder completar:
+
+```text
+Un agente necesita un LLM para __________, un harness para __________,
+un backend para __________ y blockchain para __________.
+```
