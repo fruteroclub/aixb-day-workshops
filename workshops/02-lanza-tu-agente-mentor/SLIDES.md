@@ -1,77 +1,241 @@
-# Slide Structure - Launch Your Agent
+# Workshop 2
 
-**Duration:** 25 minutes max  
-**Goal:** Move from an application that can reason to an agent runtime that can act.
+# Launch Your Agent
 
-## Slide production notes
+### Turning intelligence into action.
 
-- Match the landing brand: dark background, Space Grotesk headings, mono labels,
-  cyan for system structure, rosa only for the action mark.
-- Use the event name exactly: **AI x Blockchain Day**.
-- Keep copy concrete and operator-focused.
-- Include one diagram of the integration server.
-- Include one proof slide showing integration status from the Hono integration server.
+---
 
-## Slide structure
+# Last time...
 
-| # | Slide | Purpose | Timing |
-|---|---|---|---|
-| 1 | Title: Launch Your Agent | Set the promise: turning intelligence into action. | 1 min |
-| 2 | Last time | Remind the audience that Workshop 1 gave the app a brain. | 2 min |
-| 3 | The evolution of software | Compute -> reason -> act -> participate. | 2 min |
-| 4 | LLMs are not agents | Define answer generation vs goal execution. | 3 min |
-| 5 | What makes an agent? | Goals, tools, files, external systems and iteration. | 3 min |
-| 6 | The agent runtime | Explain the runtime around the model. | 3 min |
-| 7 | Pi Coding Agent | Introduce Pi as the builder agent. | 3 min |
-| 8 | Today's integration map | Show Pi + Nebius + wallet + GitHub + Vercel + Telegram. | 3 min |
-| 9 | Build | Walk through the six build steps. | 4 min |
-| 10 | Close: next job for the agent | Connect to Workshop 3: Builder Mentor API. | 1 min |
+We gave our application a brain.
 
-## Technical steps - ordered list
+🧠 It can reason.
 
-1. Deploy Pi Coding Agent.
-2. Connect Nebius Token Factory.
-3. Create a blockchain wallet.
-4. Connect GitHub.
-5. Connect Vercel.
-6. Connect Telegram.
+Today...
 
-## Required architecture slide
+We'll teach it how to work.
+
+---
+
+# The Evolution of Software
+
+⚙️ **Compute**
+
+↓
+
+🧠 **Reason** ✅
+
+↓
+
+🤖 **Act** ← Today
+
+↓
+
+🌐 **Participate**
+
+---
+
+# LLMs are not Agents
+
+An LLM answers questions.
+
+An agent accomplishes goals.
+
+The difference isn't intelligence.
+
+It's execution.
+
+---
+
+# What makes an Agent?
+
+An agent can...
+
+🎯 Pursue a goal
+
+🛠 Use tools
+
+📁 Read & write files
+
+🌐 Interact with external systems
+
+🔁 Iterate until the task is complete
+
+Agents don't just generate text.
+
+They produce outcomes.
+
+---
+
+# The Agent Runtime
+
+An agent doesn't work alone.
+
+It operates inside an environment with tools.
+
+That environment provides everything the agent needs to execute.
+
+---
+
+# Anatomy of an Agent Runtime
+
+🧠 Model
+
+📚 Context
+
+🧰 Skills
+
+🔌 Tools & Integrations
+
+💾 Memory
+
+🔁 Execution Loops
+
+🛡 Guardrails
+
+📈 Observability
+
+---
+
+# Think of hiring an intern.
+
+You don't just hire someone.
+
+You give them:
+
+🎯 A job
+
+📚 Documentation
+
+🛠 Tools
+
+💬 Feedback
+
+🚧 Boundaries
+
+📈 Goals
+
+An agent runtime does exactly the same thing.
+
+---
+
+# Pi Coding Agent
+
+Pi is a specialized Builder Agent.
+
+Its job is to build software.
+
+It can:
+
+💻 Write code
+
+🧪 Test
+
+🛠 Refactor
+
+▶️ Execute commands
+
+🔁 Iterate
+
+Pi is excellent at building.
+
+It isn't meant to run an entire autonomous system.
+
+---
+
+# Beyond Builder Agents
+
+Builder Agents are one piece of a larger system.
+
+Projects like **OpenClaw** and **Hermes** combine coding agents with additional capabilities:
+
+🧠 Memory
+
+🪪 Identity
+
+💳 Wallets
+
+📅 Scheduling
+
+💬 Communication
+
+🤝 Automation
+
+The runtime and integrations are what turn a builder into an autonomous agent.
+
+---
+
+# Today's Integration Map
 
 ```text
 Pi Coding Agent
-        |
-        |-- Nebius Token Factory
-        |       Reasoning
-        |
-        |-- Blockchain Wallet
-        |       Identity
-        |
-        |-- GitHub
-        |       Code
-        |
-        |-- Vercel
-        |       Deployment
-        |
-        `-- Telegram
+        │
+        ├── Nebius Token Factory
+        │       Reasoning
+        │
+        ├── Blockchain Wallet
+        │       Identity
+        │
+        ├── GitHub
+        │       Code
+        │
+        ├── Vercel
+        │       Deployment
+        │
+        └── Telegram
                 Communication
 ```
 
-## Speaker notes
+Today, we're building the first version of our integration layer.
 
-- Pi Coding Agent is installed during the workshop, not required before it.
-- Do not spend the whole session debugging installs.
-- Use the Hono integration server as the proof surface.
-- Label every integration as `live`, `configured`, `fixture`, `mock` or `missing`.
-- If setup fails, switch to the speaker machine and continue with fixtures.
+---
 
-## Required close slide
+# Today's Workshop
 
-```text
-Pi builds.
-Nebius reasons.
-Wallet identifies.
-GitHub provides code.
-Vercel deploys.
-Telegram communicates.
-```
+We'll give our agent...
+
+🧠 Intelligence
+
+🪪 Identity
+
+💻 Source Code
+
+🚀 Deployment
+
+💬 Communication
+
+By the end of this workshop...
+
+Your agent will be able to build.
+
+---
+
+# Build
+
+1. Deploy Pi Coding Agent
+
+2. Connect Nebius Token Factory
+
+3. Create a blockchain wallet
+
+4. Connect GitHub
+
+5. Connect Vercel
+
+6. Connect Telegram
+
+Let's build.
+
+---
+
+# The Journey
+
+| Evolution           | Workshop                                      |
+| ------------------- | --------------------------------------------- |
+| 🧠 **Reason**       | Workshop 1 — Give our application a brain. ✅ |
+| 🤖 **Act**          | Workshop 2 — Turn it into an agent. ✅        |
+| 🌐 **Participate**  | Workshop 3 — Give the agent a job.            |
+| 🚀 **Create Value** | Workshop 4 — Let the agent get paid.          |
+
+Each workshop builds on the previous one.

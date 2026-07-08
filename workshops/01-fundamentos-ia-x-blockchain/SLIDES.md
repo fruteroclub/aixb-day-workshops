@@ -1,54 +1,218 @@
-# Slide Structure - Fundamentos IA x Blockchain
+# Workshop 1
 
-**Duration:** 25 minutes max  
-**Goal:** Give participants a clear map of AI, agents, blockchain and the first build path: a Hono backend connected to Nebius Token Factory.
+# AI × Blockchain Foundations
 
-## Slide production notes
+### Building software that can work for us.
 
-- Match the landing brand: dark background, Space Grotesk headings, mono labels,
-  cyan for structure/system, rosa only for the action mark.
-- Use the event name exactly: **AI x Blockchain Day**.
-- Keep copy concrete and hype-free.
-- Include one system diagram: application -> Hono backend -> Nebius Token Factory.
-- Include one proof slide that labels the demo as `live` or `fixture`.
+---
 
-## Slide structure
+# Software is changing.
 
-| # | Slide | Purpose | Timing |
-|---|---|---|---|
-| 1 | Title: Fundamentos IA x Blockchain | Set the promise: understand frontier tech without deep technical background. | 1 min |
-| 2 | Why this matters now | Frame AI as work-generation infrastructure and blockchain as coordination/value infrastructure. | 2 min |
-| 3 | The full stack in one picture | Show application -> Hono backend -> Nebius -> future blockchain infra. | 3 min |
-| 4 | AI: the status quo | Explain LLMs, inference providers and why context changes outputs. | 4 min |
-| 5 | Context engineering | Show context as instructions + data + tools + memory + evaluation. | 3 min |
-| 6 | Agent harnesses, skills, integrations | Explain how agents move beyond chat into operating environments. | 3 min |
-| 7 | Blockchain as infrastructure for agents | Explain wallets, identity, payments, permissions and coordination. | 4 min |
-| 8 | Demo/build path | Preview the Hono API that calls Nebius Token Factory. | 3 min |
-| 9 | What you should remember | Summarize categories and next step into Workshop 2. | 2 min |
+For decades, software waited for users.
 
-## Technical steps - high-level ordered list
+Users clicked.
 
-1. Create a minimal Hono backend project.
-2. Add `GET /health`.
-3. Add `GET /stack`.
-4. Configure environment variables for Nebius Token Factory.
-5. Add `POST /reason`.
-6. Add fixture fallback when Nebius credentials are missing.
-7. Run local verification with curl.
-8. Clearly label what is `live` and what is `fixture`.
+Users typed.
 
-## Speaker notes
+Users made every decision.
 
-- Keep the language conceptual but concrete.
-- Avoid deep implementation details unless they support the mental model.
-- The technical demo is proof of reasoning, not a full app.
-- Protect the 25-minute limit: if live setup fails, switch to fixture.
+Now, software can reason.
 
-## Required close slide
+Soon, software will work on our behalf.
+
+---
+
+# The Evolution of Software
+
+⚙️ **Compute**
+
+Execute instructions.
+
+↓
+
+🧠 **Reason**
+
+Understand, infer, and make decisions.
+
+↓
+
+🤖 **Act**
+
+Use tools and accomplish goals.
+
+↓
+
+🌐 **Participate**
+
+Own identity, exchange value, and coordinate with others.
+
+---
+
+# The Missing Piece
+
+Large Language Models (LLMs)
+
+gave software the ability to...
+
+🧠 Understand language
+
+💡 Generate ideas
+
+📋 Plan
+
+💻 Write code
+
+🧩 Solve problems
+
+LLMs are the reasoning engine behind modern AI.
+
+---
+
+# The Evolution of AI
+
+✍️ **Prompt Engineering**
+
+Tell the AI what to do.
+
+↓
+
+📚 **Context Engineering**
+
+Give the AI everything it needs to know.
+
+↓
+
+🤖 **Agent Engineering**
+
+Give the AI a goal to accomplish.
+
+↓
+
+🛠️ **Runtime Engineering**
+
+Give the AI an environment where it can operate reliably.
+
+---
+
+# Chatbots vs Agents
+
+A chatbot answers questions.
+
+An agent completes work.
+
+Agents can:
+
+- Use tools
+- Execute code
+- Browse the web
+- Read & write files
+- Call APIs
+- Work toward goals
+
+In Workshop 2, we'll build one.
+
+---
+
+# But acting isn't enough.
+
+Imagine an AI agent that can:
+
+✅ Write software
+
+✅ Analyze contracts
+
+✅ Book travel
+
+✅ Manage infrastructure
+
+Now ask yourself...
+
+How does another system know who that agent is?
+
+How does it authorize the agent?
+
+How does it pay another service?
+
+How does it own digital assets?
+
+---
+
+# Intelligence isn't the whole story
+
+### AI enables software to...
+
+🧠 Reason
+
+🤖 Act
+
+---
+
+### Blockchain enables software to...
+
+🪪 Identify itself
+
+💳 Exchange value
+
+📜 Own resources
+
+🤝 Coordinate with other systems
+
+---
+
+**Together, they enable software that can work for us.**
+
+---
+
+# Today's Architecture
 
 ```text
-LLM: understands and generates.
-Harness: gives tools, files, permissions and operating loop.
-Backend: exposes the system as a service.
-Blockchain infra: verifies identity, state, payment or coordination.
+Your Application
+        │
+        ▼
+Backend
+        │
+        ▼
+Nebius Token Factory
+        │
+        ▼
+Large Language Model
 ```
+
+Today we're building the first layer.
+
+**The brain.**
+
+---
+
+# Today's Workshop
+
+✅ Clone the project template
+
+✅ Configure the environment
+
+✅ Get a Nebius Token Factory API key
+
+✅ Connect the backend
+
+✅ Make your first LLM request
+
+By the end of this workshop...
+
+**Your application can reason.**
+
+---
+
+# The Journey
+
+| Evolution | Workshop |
+|-----------|----------|
+| 🧠 **Reason** | **Workshop 1** — Give our application a brain. |
+| 🤖 **Act** | **Workshop 2** — Turn it into an agent. |
+| 🌐 **Participate** | **Workshop 3** — Give the agent a job. |
+| 🚀 **Create Value** | **Workshop 4** — Let the agent get paid. |
+
+Each workshop builds on the previous one.
+
+---
+
+# Let's build.

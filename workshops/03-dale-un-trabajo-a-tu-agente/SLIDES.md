@@ -1,72 +1,199 @@
-# Slide Structure - Give Your Agent a Job
+# Workshop 3
 
-**Duration:** 25 minutes max  
-**Goal:** Build an AI-native service that turns GitHub repository data into builder guidance.
+# Give Your Agent a Job
 
-## Slide production notes
+### Building an AI-native service.
 
-- Match the landing brand: dark background, Space Grotesk headings, mono labels,
-  cyan for system structure, rosa only for the action mark.
-- Use the event name exactly: **AI x Blockchain Day**.
-- Keep copy concrete and builder-focused.
-- Include one architecture diagram.
-- Include one proof slide with three curl commands.
+---
 
-## Slide structure
+# Last time...
 
-| # | Slide | Purpose | Timing |
-|---|---|---|---|
-| 1 | Title: Give Your Agent a Job | Set the promise: building an AI-native service. | 1 min |
-| 2 | Last time | Remind the audience that the app can reason and act. | 2 min |
-| 3 | The evolution of software | Compute -> reason -> act -> provide value -> capture value. | 2 min |
-| 4 | Agents need a purpose | Explain why a useful agent needs a service job. | 3 min |
-| 5 | What makes a good AI service? | Clear inputs, useful outputs and reusable API. | 3 min |
-| 6 | The AI service pattern | External data -> AI reasoning -> added value. | 3 min |
-| 7 | Meet the AI Builder Mentor | Introduce the service. | 3 min |
-| 8 | Architecture | Show User -> Builder Mentor API -> GitHub + Nebius -> response. | 3 min |
-| 9 | Today's workshop | Name the build targets. | 3 min |
-| 10 | Proof | Show health, repo lookup and mentor response. | 2 min |
+We gave our application a brain.
 
-## Technical steps - ordered list
+🧠 It can reason.
 
-1. Create a Hono service.
-2. Add `GET /health`.
-3. Add GitHub repository lookup.
-4. Add Nebius Token Factory reasoning.
-5. Add `POST /mentor`.
-6. Verify with curl.
-7. Label GitHub and Nebius as `live` or `fixture`.
+↓
 
-## Required architecture slide
+We turned it into an agent.
+
+🤖 It can act.
+
+Today...
+
+We'll give it a job.
+
+---
+
+# The Evolution of Software
+
+⚙️ **Compute**
+
+↓
+
+🧠 **Reason** ✅
+
+↓
+
+🤖 **Act** ✅
+
+↓
+
+🛠 **Provide Value** ← Today
+
+↓
+
+💳 **Capture Value** ← Coming next
+
+---
+
+# Agents need a purpose.
+
+An agent without a purpose...
+
+is just potential.
+
+A useful agent provides a service.
+
+---
+
+# What makes a good AI service?
+
+An AI service should...
+
+✅ Solve a real problem
+
+✅ Have clear inputs
+
+✅ Produce valuable outputs
+
+✅ Be reusable through an API
+
+The AI should create value—
+
+not just return data.
+
+---
+
+# The AI Service Pattern
+
+**External Data**
+
+↓
+
+**AI Reasoning**
+
+↓
+
+**Added Value**
+
+---
+
+Raw data becomes decisions.
+
+---
+
+# Meet the AI Builder Mentor
+
+An AI mentor for software builders.
+
+Give it a GitHub repository...
+
+and it will help you become a better engineer.
+
+---
+
+# Input
+
+📦 GitHub Repository
+
+🎯 Your Goal _(optional)_
+
+Example:
+
+> "Help me prepare for a Senior Solutions Architect interview."
+
+---
+
+# What does the Mentor do?
+
+🧠 Understand the project
+
+🏗 Review the architecture
+
+✨ Highlight strengths
+
+⚠️ Identify improvement opportunities
+
+📚 Recommend what to learn next
+
+🗺 Create an action plan
+
+---
+
+# Why use AI?
+
+GitHub already provides data.
+
+Our mentor provides...
+
+💡 Insights
+
+📈 Recommendations
+
+🎯 Personalized guidance
+
+AI transforms information into decisions.
+
+---
+
+# Architecture
 
 ```text
 User
-    |
-    v
+    │
+    ▼
 Builder Mentor API
-    |
-    |-- GitHub API
-    |
-    `-- Nebius Token Factory
-            |
-            v
+    │
+    ├── GitHub API
+    │
+    └── Nebius Token Factory
+            │
+            ▼
       AI Reasoning
-            |
-            v
+            │
+            ▼
   Structured Response
 ```
 
-## Speaker notes
+---
 
-- The service is Builder Mentor API, not a generic demo.
-- Do not add login, database, wallet, marketplace or UI.
-- Keep the proof to three curl commands.
-- If GitHub or Nebius fail, use fixtures and label them.
+# Today's Workshop
 
-## Required close slide
+We'll build:
 
-```text
-Raw repo data becomes recommendations.
-That is the job.
-Workshop 4 turns valuable jobs into paid or authorized work.
-```
+✅ The Builder Mentor service
+
+✅ GitHub integration
+
+✅ AI reasoning with Nebius
+
+✅ A REST API
+
+By the end...
+
+Your agent will provide a real service.
+
+---
+
+# The Journey
+
+| Evolution            | Workshop                                      |
+| -------------------- | --------------------------------------------- |
+| 🧠 **Reason**        | Workshop 1 — Give our application a brain. ✅ |
+| 🤖 **Act**           | Workshop 2 — Turn it into an agent. ✅        |
+| 🛠 **Provide Value** | Workshop 3 — Give the agent a job. ✅         |
+| 💳 **Capture Value** | Workshop 4 — Let the agent get paid.          |
+
+---
+
+# Let's build.
