@@ -33,6 +33,7 @@ server/
 │   └── integrations/       # Nebius, GitHub y wallet
 └── scripts/
     ├── create-wallet.ts
+    ├── pay-base-sepolia-job.ts
     └── smoke-test.ts
 ```
 
@@ -43,7 +44,7 @@ server/
 | 1 | `npm run workshop:1` | Brain API, Hono, Nebius fixture/live |
 | 2 | `npm run wallet:create && npm run workshop:2` | Workshop 1 + Pi setup, wallet, GitHub y contrato de integraciones |
 | 3 | `npm run workshop:3` | Workshops 1-2 + web pages y API del Mentor Agent |
-| 4 | `npm run workshop:4` | Workshops 1-3 + setup de pagos mock |
+| 4 | `npm run workshop:4` | Workshops 1-3 + UI toggle x402 y ERC-8004 |
 
 ## Por que esta forma
 
@@ -53,6 +54,8 @@ server/
   integracion externa.
 - El mismo servidor puede usar Nebius y GitHub live cuando las variables
   existen.
+- `npm run x402:pay` prueba settlement real en Base Sepolia sin meter llaves en
+  la UI.
 
 ## Nota para facilitacion
 

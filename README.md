@@ -30,7 +30,8 @@ La meta es que una persona pueda entender el stack y validar una demo local:
 1. Un backend Hono que razona con Nebius o fixture.
 2. Un agente conectado a integraciones reales o simuladas.
 3. Un servicio de mentor que usa GitHub + razonamiento.
-4. Un flujo de pago mock que rechaza trabajos sin receipt.
+4. Un gate de pagos x402 controlado desde UI, con identidad ERC-8004 y receipt
+   fixture cuando el gate está encendido.
 
 ## Punto de entrada para participantes
 
@@ -67,7 +68,7 @@ Comandos por stage:
 | 1 | `npm run workshop:1` | `http://localhost:3001` | Brain API, `/stack`, `/reason` |
 | 2 | `npm run wallet:create && npm run workshop:2` | `http://localhost:3001` | Workshop 1 + Pi setup, wallet, GitHub y contrato de integraciones |
 | 3 | `npm run workshop:3` | `http://localhost:3001` | Workshops 1-2 + web pages y API `/mentor-agent` |
-| 4 | `npm run workshop:4` | `http://localhost:3001` | Workshops 1-3 + setup de pagos mock |
+| 4 | `npm run workshop:4` | `http://localhost:3001` | Workshops 1-3 + UI toggle x402 y ERC-8004 |
 
 Todos los stages usan el mismo URL local. Detén el servidor anterior con
 `Ctrl+C` antes de iniciar el siguiente stage.
@@ -141,4 +142,6 @@ revisa:
 El servidor local valida stages 1-4 con `npm run smoke`.
 
 Los cuatro workshops tienen `README.md` en espanol como guía principal. Workshop
-4 usa pago mock; no implementa cobro real onchain todavía.
+4 usa una firma x402 fixture y un switch en la UI para activar o apagar el gate
+de pagos; también incluye una prueba opcional de settlement en Base Sepolia con
+`npm run x402:pay`.

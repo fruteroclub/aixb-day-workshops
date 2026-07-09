@@ -77,7 +77,9 @@ async function runStage(stage: number): Promise<void> {
       PORT: String(port),
       WORKSHOP_STAGE: String(stage),
       NEBIUS_API_KEY: "",
-      NEBIUS_MODEL: ""
+      NEBIUS_MODEL: "",
+      X402_MODE: "fixture",
+      X402_BUYER_PRIVATE_KEY: ""
     },
     stdio: ["ignore", "pipe", "pipe"]
   });
@@ -143,15 +145,28 @@ async function runStage(stage: number): Promise<void> {
     }
 
     if (stage >= 4) {
+      await requestJson(`${baseUrl}/.well-known/agent-registration.json`);
+      await requestJson(`${baseUrl}/payment-mode`);
       await requestJson(`${baseUrl}/services`);
       await requestJson(`${baseUrl}/jobs`, {
         method: "POST",
-        body: JSON.stringify({ task: "summarize", input: "hello", paymentReceipt: null }),
+        body: JSON.stringify({ task: "summarize", input: "free demo path" })
+      });
+      await requestJson(`${baseUrl}/payment-mode`, {
+        method: "POST",
+        body: JSON.stringify({ enabled: true })
+      });
+      await requestJson(`${baseUrl}/jobs`, {
+        method: "POST",
+        body: JSON.stringify({ task: "summarize", input: "paid path requires signature" }),
         allowStatus: [402]
       });
       await requestJson(`${baseUrl}/jobs`, {
         method: "POST",
-        body: JSON.stringify({ task: "summarize", input: "hello", paymentReceipt: "mock-valid" })
+        headers: {
+          "PAYMENT-SIGNATURE": "x402-fixture-paid"
+        },
+        body: JSON.stringify({ task: "summarize", input: "hello" })
       });
     } else {
       await requestJson(`${baseUrl}/services`, { allowStatus: [404] });

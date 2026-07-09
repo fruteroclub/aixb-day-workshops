@@ -56,14 +56,38 @@ export type WalletStatus =
 export type JobRecord = {
   id: string;
   status: "completed";
-  integration: "mock";
+  integration: "payment-disabled" | "x402-fixture" | "x402-testnet";
   task: string;
   input: string;
   result: string;
-  receipt: {
-    type: "mock" | "testnet";
-    value: "mock-valid" | "testnet-valid";
+  payment: {
+    enabled: boolean;
+    protocol: "none" | "x402";
+    required: boolean;
+  };
+  receipt?: {
+    protocol: "x402";
+    type: "fixture" | "testnet";
+    value: "x402-fixture-paid" | "testnet-valid";
+    network: string;
+    payTo: string;
+    facilitator: string;
     verified: true;
+  };
+  erc8004Feedback?: {
+    agentRegistry: string;
+    agentId: number;
+    tag1: string;
+    tag2: string;
+    endpoint: string;
+    proofOfPayment: {
+      fromAddress: string;
+      toAddress: string;
+      chainId: string;
+      txHash: string;
+      network: string;
+      facilitator: string;
+    };
   };
   createdAt: string;
 };

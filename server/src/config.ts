@@ -98,9 +98,16 @@ export function stageCapabilities(config: AppConfig): StageCapability[] {
     },
     {
       workshop: 4,
-      name: "Paid agent job flow",
+      name: "UI-controlled x402 payment gate and ERC-8004 discovery",
       enabled: isStageEnabled(config, 4),
-      routes: ["GET /services", "POST /jobs", "GET /jobs/:id"]
+      routes: [
+        "GET /.well-known/agent-registration.json",
+        "GET /payment-mode",
+        "POST /payment-mode",
+        "GET /services",
+        "POST /jobs",
+        "GET /jobs/:id"
+      ]
     }
   ];
 }

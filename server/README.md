@@ -24,7 +24,7 @@ principales. No requiere Nebius, GitHub ni wallet real.
 | 1 | `npm run workshop:1` | `http://localhost:3001` | Brain API, `/stack`, `/reason` |
 | 2 | `npm run wallet:create && npm run workshop:2` | `http://localhost:3001` | Workshop 1 + Pi setup, wallet, GitHub y contrato de integraciones |
 | 3 | `npm run workshop:3` | `http://localhost:3001` | Workshops 1-2 + web pages y API `/mentor-agent` |
-| 4 | `npm run workshop:4` | `http://localhost:3001` | Workshops 1-3 + setup de pagos mock |
+| 4 | `npm run workshop:4` | `http://localhost:3001` | Workshops 1-3 + UI toggle x402 y ERC-8004 |
 
 Todos los stages usan el mismo puerto. Detén el stage anterior con `Ctrl+C`
 antes de iniciar el siguiente.
@@ -48,6 +48,7 @@ Scripts:
 scripts/configure-pi-nebius.ts  # configura Pi para Nebius Token Factory
 scripts/create-wallet.ts  # genera wallet fixture local
 scripts/smoke-test.ts     # valida stages 1-4
+scripts/pay-base-sepolia-job.ts # ejecuta una prueba x402 real en Base Sepolia
 ```
 
 Para preparar Pi en Workshop 2:
@@ -82,6 +83,27 @@ export NEBIUS_BASE_URL="https://api.tokenfactory.nebius.com/v1"
 
 No proyectes secrets durante el workshop.
 
+Base Sepolia x402:
+
+```bash
+export X402_MODE=base-sepolia
+export X402_NETWORK=eip155:84532
+export X402_FACILITATOR_URL=https://x402.org/facilitator
+export X402_PRICE_USD='$0.001'
+export X402_PAY_TO="0xwallet-vendedora"
+```
+
+`X402_MODE` no prende el gate. Solo cambia el driver que se usa cuando la UI
+enciende **Activar pagos x402**. Para ejecutar un pago real de prueba, usa una
+wallet compradora con USDC en Base Sepolia:
+
+```bash
+export X402_BUYER_PRIVATE_KEY="0xprivate-key-de-wallet-testnet"
+npm run x402:pay
+```
+
+No uses una llave mainnet ni una wallet con fondos reales relevantes.
+
 ## Rutas principales
 
 | Ruta | Workshop | Propósito |
@@ -96,8 +118,11 @@ No proyectes secrets durante el workshop.
 | `POST /mentor-agent` | 3 | API para agentes: genera guía desde URL de GitHub y objetivo. |
 | `GET /repo/:owner/:repo` | 3 | Devuelve contexto de repositorio para mentor. |
 | `POST /mentor` | 3 | Produce guía para un builder. |
-| `GET /services` | 4 | Lista servicios cobrables mock. |
-| `POST /jobs` | 4 | Rechaza sin pago y ejecuta con receipt válido. |
+| `GET /.well-known/agent-registration.json` | 4 | Publica metadata ERC-8004 para descubrimiento del agente. |
+| `GET /payment-mode` | 4 | Devuelve si el gate x402 está encendido. |
+| `POST /payment-mode` | 4 | Prende o apaga el gate x402 desde la UI/API. |
+| `GET /services` | 4 | Lista servicios cobrables, requirements x402 y estado del gate. |
+| `POST /jobs` | 4 | Ejecuta libre con el gate apagado; con el gate encendido usa fixture o Base Sepolia según `X402_MODE`. |
 | `GET /jobs/:id` | 4 | Lee un job en memoria. |
 
 ## Reglas
