@@ -152,7 +152,10 @@ AI transforms information into decisions.
 User
     │
     ▼
-Builder Mentor API
+Mentor Agent Web Page
+    │
+    ▼
+Mentor Agent API
     │
     ├── GitHub API
     │
@@ -171,17 +174,19 @@ Builder Mentor API
 
 We'll build:
 
-✅ The Builder Mentor service
+✅ The Mentor Agent web page
+
+✅ The API agents can call
 
 ✅ GitHub integration
 
 ✅ AI reasoning with Nebius
 
-✅ A REST API
-
 By the end...
 
-Your agent will provide a real service.
+Your service will be usable by people and by agents.
+
+Payments come in Workshop 4.
 
 ---
 
@@ -191,8 +196,8 @@ Your agent will provide a real service.
 | -------------------- | --------------------------------------------- |
 | 🧠 **Reason**        | Workshop 1 — Give our application a brain. ✅ |
 | 🤖 **Act**           | Workshop 2 — Turn it into an agent. ✅        |
-| 🛠 **Provide Value** | Workshop 3 — Give the agent a job. ✅         |
-| 💳 **Capture Value** | Workshop 4 — Let the agent get paid.          |
+| 🛠 **Provide Value** | Workshop 3 — Web pages + agent API. ✅        |
+| 💳 **Capture Value** | Workshop 4 — Execute payments with x402.      |
 
 ---
 

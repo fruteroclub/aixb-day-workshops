@@ -1,93 +1,187 @@
-# Un Agente que cobra por trabajo
+# Workshop 4: Un agente que cobra por trabajo
 
-**Promesa:** Habilita pagos para que tu agente pueda vender sus servicios en un marketplace.
+En este workshop vas a validar el flujo mínimo para que un agente cobre antes de
+ejecutar un trabajo. La implementación actual usa recibos mock: no hay mainnet,
+no hay fondos reales y no hay custodia. El punto es entender el patrón técnico:
+servicio, autorización de pago, ejecución y comprobante.
 
-- **Horario público:** 13:30-13:55, workshop stage.
-- **Capacidad de diseño:** 20 personas.
-- **Fuente de verdad:** programa público en `blockchain-ai-day-landing/src/i18n/ui.ts`.
+## Qué vas a tener al final
 
-## Objetivo
+- El servidor Hono corriendo en stage 4.
+- Un catálogo de servicios cobrables.
+- Un endpoint que rechaza trabajos sin pago.
+- Un endpoint que ejecuta trabajos con receipt válido.
+- Un job guardado en memoria durante la vida del servidor.
 
-Que el asistente entienda por qué blockchain ayuda con pagos/identidad y complete una integración mínima de pago o autorización para un servicio de agente.
+## Requisitos
 
-## Audiencia
+- Node.js 20 o superior.
+- Terminal.
+- `curl`.
 
-Builders, founders, partners y asistentes técnicos interesados en monetización de agentes, marketplaces y servicios pagados.
+No necesitas wallet real ni testnet para validar la versión actual.
 
-## Resultados esperados
+## 1. Levanta el stage del workshop
 
-- Explicar por qué pagos e identidad son problemas centrales para agentes.
-- Entender una arquitectura tipo PerkOS para marketplace/servicios de agentes.
-- Integrar o simular un flujo de pago para desbloquear trabajo de agente.
-- Identificar riesgos: custodia, permisos, compliance, pricing, abuso y UX.
-
-## Kit de entrega
-
-| Pieza | Definición |
-|---|---|
-| Artefacto del asistente | Flujo mínimo de job pagado o autorizado para un servicio de agente. |
-| Demo mínima | `POST /jobs` rechaza sin pago y ejecuta con receipt válido o mock válido. |
-| Prueba visible | Un request devuelve `402 Payment Required`; otro devuelve estado, resultado y receipt. |
-| Fallback | Mock de receipt con el punto exacto donde entraría verificación real o testnet. |
-| Handoff | El asistente entiende cómo un servicio técnico se convierte en una unidad vendible. |
-
-## Agenda sugerida
-
-| Tiempo | Bloque |
-|---|---|
-| 00:00-00:03 | Apertura: de agente útil a agente comercial |
-| 00:03-00:08 | Why blockchain for payments and identity |
-| 00:08-00:13 | PerkOS architecture |
-| 00:13-00:21 | Integrate payments |
-| 00:21-00:24 | Marketplace flow: publicar, comprar, ejecutar, confirmar |
-| 00:24-00:25 | Cierre: límites y próximos pasos |
-
-## Contenido base
-
-### Why blockchain for payments and identity
-
-- Agentes necesitan saber quién pide, qué permiso tiene y quién paga.
-- Blockchain permite pagos programables, cuentas/wallets, ownership, receipts y coordinación entre sistemas.
-- No todo debe ir onchain: distinguir pagos, identidad, metadata, lógica de negocio y ejecución offchain.
-
-### PerkOS architecture
-
-- Marketplace de perks/servicios.
-- Agente como proveedor de trabajo.
-- Backend/harness que recibe jobs, verifica pago/identidad y ejecuta.
-- Wallet, payment gateway/protocol, registry, job state y logs.
-
-### Integrate payments
-
-- Definir servicio vendible.
-- Agregar paywall/autorización.
-- Verificar pago o simular recibo.
-- Ejecutar trabajo del agente después del pago.
-- Devolver resultado y comprobante.
-
-## Artefacto del workshop
-
-Un flujo mínimo donde un usuario paga o presenta prueba de pago/identidad para desbloquear una tarea ejecutada por un agente o servicio de agente.
-
-## Criterio de salida
-
-La prueba mínima tiene dos caminos:
+Desde la raíz del repositorio:
 
 ```bash
-curl -X POST http://localhost:PORT/jobs \
-  -H "Content-Type: application/json" \
-  -d '{"task":"summarize","input":"demo","paymentReceipt":null}'
-
-curl -X POST http://localhost:PORT/jobs \
-  -H "Content-Type: application/json" \
-  -d '{"task":"summarize","input":"demo","paymentReceipt":"mock-valid"}'
+cd server
+npm install
+npm run check
+npm run workshop:4
 ```
 
-El primer camino debe rechazar. El segundo debe ejecutar o simular ejecución y
-devolver resultado, estado y receipt.
+El servidor queda en:
 
-## Archivos
+```text
+http://localhost:3001
+```
 
-- [`SLIDES.md`](SLIDES.md) - estructura propuesta de presentación y pasos técnicos de alto nivel.
-- [`FACILITATOR_GUIDE.md`](FACILITATOR_GUIDE.md) - guía de facilitación, ritmo, riesgos y criterios de éxito.
-- [`EXERCISES.md`](EXERCISES.md) - ejercicios y prompts para asistentes.
+Si todavía tienes corriendo el stage anterior, detenlo primero con `Ctrl+C`.
+Todos los workshops usan el mismo puerto local.
+
+Este stage incluye lo anterior:
+
+- Workshop 1: brain API.
+- Workshop 2: integraciones del agente.
+- Workshop 3: web pages + API del Mentor Agent.
+- Workshop 4: setup de pagos y flujo de jobs pagados.
+
+## 2. Consulta los servicios disponibles
+
+En otra terminal:
+
+```bash
+curl http://localhost:3001/services
+```
+
+Debes ver servicios como:
+
+- `summarize`: resume texto después de autorización.
+- `mentor`: devuelve un siguiente paso para un builder.
+
+La respuesta indica `receipt: "mock-valid"`. Ese es el receipt que desbloquea la
+ejecución en esta versión.
+
+## 3. Prueba el camino sin pago
+
+```bash
+curl -i -X POST http://localhost:3001/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"task":"summarize","input":"Este texto debería ser rechazado.","paymentReceipt":null}'
+```
+
+El servidor debe responder con:
+
+```text
+HTTP/1.1 402 Payment Required
+```
+
+Y el body debe incluir:
+
+```json
+{
+  "status": "payment_required",
+  "requiredReceipt": "mock-valid"
+}
+```
+
+Este es el comportamiento correcto: el agente no trabaja si no hay comprobante.
+
+## 4. Prueba el camino pagado con mock receipt
+
+```bash
+curl -i -X POST http://localhost:3001/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"task":"summarize","input":"AI x Blockchain Day conecta agentes con identidad, pagos y automatizacion.","paymentReceipt":"mock-valid"}'
+```
+
+El servidor debe responder con status `201 Created` y un job con:
+
+- `status: "completed"`.
+- `integration: "mock"`.
+- `receipt.verified: true`.
+- `result`.
+
+Copia el `id` del job para el siguiente paso.
+
+## 5. Consulta el job creado
+
+Reemplaza `JOB_ID` por el id que recibiste:
+
+```bash
+curl http://localhost:3001/jobs/JOB_ID
+```
+
+El job existe solo mientras el servidor esta corriendo, porque esta versión usa
+memoria local y no una base de datos.
+
+## 6. Prueba otro servicio
+
+```bash
+curl -i -X POST http://localhost:3001/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"task":"mentor","input":"honojs/hono","paymentReceipt":"mock-valid"}'
+```
+
+El resultado debe devolver una recomendación breve para definir un siguiente
+paso.
+
+## 7. Revisa la implementación
+
+Los archivos importantes son:
+
+```text
+server/src/routes/jobs.ts
+server/src/types.ts
+```
+
+En `server/src/routes/jobs.ts`, identifica:
+
+- `GET /services`: lista lo que el agente puede vender.
+- `POST /jobs`: valida el receipt antes de ejecutar.
+- `GET /jobs/:id`: devuelve un job guardado en memoria.
+- `validReceipt`: define que receipts desbloquean ejecución.
+- `executePaidTask`: simula el trabajo del agente.
+
+El punto técnico es el orden:
+
+```text
+solicitud -> verificar pago -> ejecutar trabajo -> devolver resultado + receipt
+```
+
+No debe ser:
+
+```text
+solicitud -> ejecutar trabajo -> pedir pago después
+```
+
+## 8. Donde entraria blockchain real
+
+La versión actual acepta `mock-valid` y `testnet-valid`. En una versión real,
+`validReceipt` seria reemplazado o complementado por una verificacion contra:
+
+- Un payment gateway.
+- Una red testnet.
+- Un contrato.
+- Un indexer.
+- Un servicio de identidad o permisos.
+
+La lógica del route handler no debería cambiar demasiado. Lo que cambiaria es
+el módulo que decide si el receipt es válido.
+
+## Criterio de éxito
+
+El workshop está validado cuando puedes mostrar:
+
+- `GET /services` lista servicios cobrables.
+- `POST /jobs` sin receipt devuelve `402 Payment Required`.
+- `POST /jobs` con `paymentReceipt: "mock-valid"` devuelve `201 Created`.
+- `GET /jobs/:id` devuelve el job creado.
+
+La frase técnica del workshop:
+
+```text
+Un agente comercial no solo ejecuta tareas: verifica autorización, entrega resultado y conserva comprobante.
+```

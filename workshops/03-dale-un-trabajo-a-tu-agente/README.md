@@ -1,391 +1,210 @@
-# Give Your Agent a Job - Written Guide
+# Workshop 3: Dale un trabajo a tu agente
 
-This README is the written workshop guide. It adapts the slide source in
-[`../../tmp/03-dale-un-trabajo-a-tu-agente.md`](../../tmp/03-dale-un-trabajo-a-tu-agente.md)
-into the build path for Workshop 3: give the agent a concrete job by building a
-Builder Mentor API with GitHub data and Nebius reasoning.
+En este workshop Pi Coding Agent toma el runtime preparado en Workshop 2 y
+construye la superficie del Mentor Agent: páginas web para usuarios y una API
+para agentes.
 
-Use the companion files when preparing delivery:
+El trabajo concreto del Mentor Agent es recibir un repositorio público de
+GitHub, entender el objetivo de un builder y devolver una guía accionable.
 
-- [`SLIDES.md`](SLIDES.md) - presentation structure.
-- [`FACILITATOR_GUIDE.md`](FACILITATOR_GUIDE.md) - timing, risks and fallback.
-- [`EXERCISES.md`](EXERCISES.md) - participant exercises.
+La meta no es construir un producto completo. La meta es pasar de "agente que
+puede hablar" a "servicio que entrega una tarea clara".
 
-Este workshop le da un trabajo concreto al agente: construir un Builder Mentor
-service. El servicio recibe un repositorio de GitHub, obtiene metadata técnica y
-usa Nebius Token Factory para convertir esa información en recomendaciones para
-un builder.
+## Qué vas a tener al final
 
-El stack del tutorial es Hono + GitHub API + Nebius Token Factory.
-
-## Resultado visible
-
-Al final tendrás una API local con:
-
-| Ruta | Integración | Qué demuestra |
-|---|---:|---|
-| `GET /health` | `live` | El servicio Hono está corriendo. |
-| `GET /repo/:owner/:repo` | `live` o `fixture` | El servicio puede leer GitHub. |
-| `POST /mentor` | `live` o `fixture` | El servicio produce una recomendación útil para un builder. |
-
-La prueba visible:
-
-```bash
-curl http://localhost:3003/health
-curl http://localhost:3003/repo/honojs/hono
-curl -X POST http://localhost:3003/mentor \
-  -H "Content-Type: application/json" \
-  -d '{"owner":"honojs","repo":"hono","goal":"I want to learn how this project structures APIs."}'
-```
+- El servidor Hono corriendo en stage 3.
+- Páginas web del Mentor Agent en `http://localhost:3001`.
+- API para agentes en `POST /mentor-agent`.
+- Contexto de GitHub público sin token.
+- Razonamiento con Nebius Token Factory o fixture local.
+- Una respuesta que usuarios y agentes pueden consumir.
 
 ## Requisitos
 
 - Node.js 20 o superior.
 - Terminal.
-- `curl`.
-- Opcional: `GITHUB_TOKEN` para evitar rate limits.
+- Un repositorio público de GitHub para probar.
 - Opcional: `NEBIUS_API_KEY` y `NEBIUS_MODEL` para razonamiento live.
 
-Sin credenciales, el servicio usa fixtures explícitos.
+## 1. Levanta el stage del workshop
 
-## Paso 1 - Crea el proyecto Hono
-
-```bash
-mkdir aixb-ws03-builder-mentor
-cd aixb-ws03-builder-mentor
-npm init -y
-npm pkg set type=module
-npm install hono @hono/node-server
-mkdir -p src
-```
-
-Agrega scripts:
+Desde la raíz del repositorio:
 
 ```bash
-npm pkg set scripts.start="node src/server.js"
-npm pkg set scripts.check="node --check src/server.js"
+cd server
+npm install
+npm run check
+npm run workshop:3
 ```
 
-## Paso 2 - Crea el Builder Mentor API
+El servidor queda en:
 
-Crea `src/server.js`:
+```text
+http://localhost:3001
+```
+
+Si todavía tienes corriendo el stage anterior, detenlo primero con `Ctrl+C`.
+Todos los workshops usan el mismo puerto local.
+
+Este stage incluye lo anterior:
+
+- Workshop 1: brain API.
+- Workshop 2: Pi + wallet fixture + GitHub público + contrato de integraciones.
+- Workshop 3: web pages + API del Mentor Agent.
+
+## 2. Pide a Pi que construya la superficie
+
+El template trae el resultado implementado como checkpoint para que puedas
+entrar directo en Workshop 3. Aun así, el ejercicio del workshop es que Pi haga
+el trabajo de inspeccionar, conectar y validar las páginas web y la API.
+
+En otra terminal, desde la raíz del repo o desde `server/`, abre Pi:
 
 ```bash
-cat > src/server.js <<'EOF'
-import { Buffer } from "node:buffer";
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
-
-const app = new Hono();
-
-const PORT = Number(process.env.PORT ?? 3003);
-const NEBIUS_BASE_URL = process.env.NEBIUS_BASE_URL ?? "https://api.tokenfactory.nebius.com/v1";
-
-function configured(value) {
-  return Boolean(value && value.trim());
-}
-
-function githubHeaders() {
-  const headers = {
-    accept: "application/vnd.github+json",
-    "user-agent": "aixb-builder-mentor"
-  };
-
-  if (configured(process.env.GITHUB_TOKEN)) {
-    headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  }
-
-  return headers;
-}
-
-function fixtureRepo(owner, repo) {
-  return {
-    integration: "fixture",
-    owner,
-    repo,
-    fullName: `${owner}/${repo}`,
-    description: "Fixture repository for workshop delivery.",
-    stars: 42,
-    forks: 7,
-    defaultBranch: "main",
-    language: "TypeScript",
-    topics: ["ai", "blockchain", "workshop"],
-    languages: {
-      TypeScript: 12000,
-      JavaScript: 4000
-    },
-    readmeExcerpt: "This fixture README represents the project context a mentor would inspect."
-  };
-}
-
-async function fetchJson(url) {
-  const response = await fetch(url, { headers: githubHeaders() });
-  if (!response.ok) {
-    throw new Error(`${url} returned ${response.status}`);
-  }
-  return response.json();
-}
-
-async function fetchReadme(owner, repo) {
-  try {
-    const data = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/readme`);
-    const decoded = Buffer.from(data.content ?? "", "base64").toString("utf8");
-    return decoded.slice(0, 4000);
-  } catch {
-    return "";
-  }
-}
-
-async function getRepoContext(owner, repo) {
-  try {
-    const [repoData, languages, readmeExcerpt] = await Promise.all([
-      fetchJson(`https://api.github.com/repos/${owner}/${repo}`),
-      fetchJson(`https://api.github.com/repos/${owner}/${repo}/languages`).catch(() => ({})),
-      fetchReadme(owner, repo)
-    ]);
-
-    return {
-      integration: "live",
-      owner,
-      repo,
-      fullName: repoData.full_name,
-      description: repoData.description,
-      stars: repoData.stargazers_count,
-      forks: repoData.forks_count,
-      defaultBranch: repoData.default_branch,
-      language: repoData.language,
-      topics: repoData.topics ?? [],
-      languages,
-      readmeExcerpt
-    };
-  } catch (error) {
-    return {
-      ...fixtureRepo(owner, repo),
-      warning: error.message
-    };
-  }
-}
-
-function fixtureMentorResponse({ repoContext, goal }) {
-  return {
-    integration: "fixture",
-    mentor: {
-      summary: `${repoContext.fullName} looks like a ${repoContext.language ?? "software"} project with clear API learning value.`,
-      strengths: [
-        "Has public repository metadata that can be inspected.",
-        "Can be turned into a structured learning plan."
-      ],
-      opportunities: [
-        "Review the README and identify the main runtime.",
-        "Find the test command before making changes.",
-        "Ask the agent for a small first contribution."
-      ],
-      actionPlan: [
-        "Read the README.",
-        "Map the project structure.",
-        "Run the documented check command.",
-        `Connect the plan to this goal: ${goal || "learn the project"}`
-      ]
-    }
-  };
-}
-
-async function callNebius({ repoContext, goal }) {
-  if (!configured(process.env.NEBIUS_API_KEY) || !configured(process.env.NEBIUS_MODEL)) {
-    return fixtureMentorResponse({ repoContext, goal });
-  }
-
-  const response = await fetch(`${NEBIUS_BASE_URL}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${process.env.NEBIUS_API_KEY}`
-    },
-    body: JSON.stringify({
-      model: process.env.NEBIUS_MODEL,
-      messages: [
-        {
-          role: "system",
-          content: [
-            "You are an AI Builder Mentor.",
-            "Review GitHub repository context and return practical engineering guidance.",
-            "Respond with concise JSON-compatible content."
-          ].join(" ")
-        },
-        {
-          role: "user",
-          content: JSON.stringify({
-            goal,
-            repo: repoContext
-          })
-        }
-      ]
-    })
-  });
-
-  if (!response.ok) {
-    throw new Error(`Nebius returned ${response.status}: ${await response.text()}`);
-  }
-
-  const data = await response.json();
-  return {
-    integration: "live",
-    provider: "nebius-token-factory",
-    model: process.env.NEBIUS_MODEL,
-    mentor: data.choices?.[0]?.message?.content ?? ""
-  };
-}
-
-app.get("/health", (c) => {
-  return c.json({
-    ok: true,
-    service: "builder-mentor-api",
-    framework: "hono",
-    integration: "live"
-  });
-});
-
-app.get("/repo/:owner/:repo", async (c) => {
-  const repoContext = await getRepoContext(c.req.param("owner"), c.req.param("repo"));
-  return c.json(repoContext);
-});
-
-app.post("/mentor", async (c) => {
-  const body = await c.req.json().catch(() => ({}));
-  const owner = body.owner ?? "honojs";
-  const repo = body.repo ?? "hono";
-  const goal = body.goal ?? "Understand this project and define a first learning plan.";
-
-  const repoContext = await getRepoContext(owner, repo);
-  const mentorResult = await callNebius({ repoContext, goal });
-
-  return c.json({
-    route: "/mentor",
-    integrations: {
-      github: repoContext.integration,
-      reasoning: mentorResult.integration
-    },
-    input: {
-      owner,
-      repo,
-      goal
-    },
-    repoContext,
-    result: mentorResult
-  });
-});
-
-serve({
-  fetch: app.fetch,
-  port: PORT
-});
-
-console.log(`Builder Mentor API running on http://localhost:${PORT}`);
-EOF
+pi
 ```
 
-## Paso 3 - Verifica localmente
+Prompt sugerido:
+
+```text
+Estamos en Workshop 3 de AI x Blockchain Day.
+
+Workshop 2 dejó listo el runtime de integraciones.
+Ahora debes construir o validar la superficie del Mentor Agent:
+- una página web en GET /
+- una API para agentes en POST /mentor-agent
+- conexión con GitHub público
+- conexión con Nebius o fixture
+
+Inspecciona:
+- server/src/routes/web.ts
+- server/src/routes/mentor-agent.ts
+- server/src/services/mentor-agent.ts
+- server/src/integrations/github.ts
+- server/src/integrations/nebius.ts
+
+No agregues pagos, login, base de datos ni wallet real.
+Primero explica qué vas a verificar y qué comando correrás.
+```
+
+## 3. Abre la app del Mentor Agent
+
+Abre:
+
+```text
+http://localhost:3001
+```
+
+La app pide dos datos:
+
+```text
+Repositorio: https://github.com/honojs/hono
+Objetivo: Quiero entender cómo este proyecto estructura APIs y cuál sería una primera tarea pequeña para un builder.
+```
+
+Presiona **Analizar con Mentor Agent**.
+
+La respuesta debe mostrar:
+
+- Estado de GitHub: `live` o `fixture`.
+- Estado de razonamiento: `live` o `fixture`.
+- Repositorio consultado.
+- Descripción o README del proyecto cuando esté disponible.
+- Guía del Mentor Agent.
+
+Si GitHub API está limitada, el servidor intenta leer la página pública del repo
+y su README crudo. Si eso también falla, usa fixture para que el workshop pueda
+continuar.
+
+La app llama a `POST /mentor-agent`. Ese endpoint es la superficie que también
+puede usar otro agente.
+
+## 4. Prueba otro trabajo
+
+Usa otro repositorio público y cambia el objetivo.
+
+Ejemplo:
+
+```text
+Repositorio: https://github.com/fruteroclub/aixb-day-workshops
+Objetivo: Quiero detectar qué partes del workshop ya están listas y qué debería preparar un speaker.
+```
+
+Compara:
+
+- Qué cambió en el contexto del repositorio.
+- Qué cambió en la recomendación.
+- Qué parte de la respuesta podría convertirse en tarea para Pi.
+
+## 5. Revisa la implementación
+
+Los archivos importantes son:
+
+```text
+server/src/routes/web.ts
+server/src/routes/mentor-agent.ts
+server/src/routes/mentor.ts
+server/src/services/mentor-agent.ts
+server/src/integrations/github.ts
+server/src/integrations/nebius.ts
+server/src/types.ts
+```
+
+La página web llama a:
+
+```text
+POST /mentor-agent
+```
+
+El stage 3 también conserva estos endpoints para inspección técnica:
+
+```text
+GET /repo/:owner/:repo
+POST /mentor
+```
+
+No necesitas llamarlos manualmente durante el workshop. Están ahí para que Pi
+Coding Agent pueda inspeccionar el servicio y para que el speaker explique la
+API.
+
+## 6. Usa Nebius live
+
+Si `server/.env` ya tiene `NEBIUS_API_KEY`, `NEBIUS_MODEL` y `NEBIUS_BASE_URL`,
+no tienes que exportar nada manualmente. El servidor carga `.env` al arrancar.
+
+Vuelve a analizar un repo desde la app. Si todo está configurado,
+`integrations.reasoning` debe ser `live`.
+
+Si no hay credenciales, `result.integration` será `fixture`. Eso es correcto
+para practicar el flujo.
+
+## 7. Pide a Pi que convierta la respuesta en plan
+
+Prompt sugerido:
+
+```text
+Usa la respuesta de la app del Mentor Agent como contexto.
+
+Crea BUILDER_MENTOR_PLAN.md con:
+- repositorio analizado
+- objetivo del builder
+- estado de GitHub y razonamiento
+- cómo se conectó la página web con POST /mentor-agent
+- cómo otro agente consumiría la API
+- tres siguientes acciones concretas
+- comando de verificación que debe correr antes de decir que terminó
+
+No describas a Pi como el servicio. Pi es la herramienta builder; el servicio es Mentor Agent.
+No agregues pagos, base de datos, login, marketplace ni wallet real.
+```
+
+Valida fuera de Pi:
 
 ```bash
 npm run check
-npm start
 ```
 
-En otra terminal:
-
-```bash
-curl http://localhost:3003/health
-curl http://localhost:3003/repo/honojs/hono
-curl -X POST http://localhost:3003/mentor \
-  -H "Content-Type: application/json" \
-  -d '{"owner":"honojs","repo":"hono","goal":"I want to understand how Hono structures APIs."}'
-```
-
-Si GitHub o Nebius fallan, el response indicará `fixture`. Eso mantiene la demo
-entregable.
-
-## Paso 4 - Conecta GitHub live
-
-Para repos públicos, la API funciona sin token pero tiene límites. Para una demo
-más estable:
-
-```bash
-export GITHUB_TOKEN="replace-with-read-only-token"
-curl http://localhost:3003/repo/honojs/hono
-```
-
-Usa un token de solo lectura. No proyectes el valor.
-
-## Paso 5 - Conecta Nebius live
-
-```bash
-export NEBIUS_API_KEY="replace-with-event-key"
-export NEBIUS_MODEL="replace-with-model-from-nebius-playground"
-export NEBIUS_BASE_URL="https://api.tokenfactory.nebius.com/v1"
-```
-
-Verifica:
-
-```bash
-curl -X POST http://localhost:3003/mentor \
-  -H "Content-Type: application/json" \
-  -d '{"owner":"honojs","repo":"hono","goal":"Prepare a learning path for an API engineer."}'
-```
-
-El response debe decir:
-
-```text
-integrations.github = live
-integrations.reasoning = live
-```
-
-si ambas integraciones están configuradas.
-
-## Paso 6 - Prompt para construirlo con Pi
-
-Si el speaker quiere que Pi lo implemente en vivo, usa prompts pequeños.
-
-```text
-We are building the AI Builder Mentor service for AI x Blockchain Day.
-
-Use Hono on Node.js.
-
-Required endpoints:
-- GET /health
-- GET /repo/:owner/:repo
-- POST /mentor
-
-Integrations:
-- GitHub API for repository metadata
-- Nebius Token Factory for AI reasoning
-- fixture fallback for both integrations
-
-First inspect the project and propose a plan. Do not edit files yet.
-```
-
-Después:
-
-```text
-Implement the Hono API.
-
-Requirements:
-- no database
-- no frontend
-- no wallet
-- no mainnet
-- label every integration as live or fixture
-- add npm scripts start and check
-- after editing, tell me the curl commands that prove the service works
-```
-
-Verifica fuera de Pi con:
-
-```bash
-npm run check
-curl http://localhost:3003/health
-```
-
-## Qué no construir
+## Qué no se debe construir aquí
 
 No agregues:
 
@@ -395,27 +214,18 @@ No agregues:
 - Wallet real.
 - Smart contract.
 - Mainnet.
-- UI.
+- Cobros x402 todavía.
 
-El éxito es un servicio de mentoría con GitHub + IA, no un producto completo.
+El éxito es un servicio de mentoría con contexto de GitHub, razonamiento
+etiquetado y una respuesta que puede convertirse en trabajo real.
 
-## Fallback
+## Criterio de éxito
 
-Sin credenciales:
+El workshop está validado cuando puedes mostrar:
 
-```bash
-unset GITHUB_TOKEN NEBIUS_API_KEY NEBIUS_MODEL NEBIUS_BASE_URL
-npm start
-```
-
-Corre la misma prueba visible. El response debe seguir funcionando con
-integraciones `fixture`.
-
-## Checklist para speakers
-
-- Usa Hono como servidor.
-- La demo principal es Builder Mentor API.
-- Ten un repo público de prueba, por ejemplo `honojs/hono`.
-- Ten modo fixture listo.
-- No proyectes GitHub o Nebius secrets.
-- Cierra conectando con Workshop 4: si el servicio entrega valor, el siguiente paso es cobrar o autorizar trabajos.
+- `http://localhost:3001` abre la app del Mentor Agent.
+- La app acepta una URL de GitHub y un objetivo.
+- `POST /mentor-agent` queda disponible como API para agentes.
+- La respuesta etiqueta GitHub y razonamiento como `live` o `fixture`.
+- La guía es accionable para un builder.
+- Pi genera `BUILDER_MENTOR_PLAN.md` sin confundirse con el servicio final.

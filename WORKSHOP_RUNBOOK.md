@@ -18,6 +18,29 @@ public-facing copy:
 | `blockchain-ai-day/TICK.md` | Current planning/design task state |
 | `blockchain-ai-day/workstreams/*/STATUS.md` | Fresh workstream status when repo trackers disagree |
 
+## Participant server
+
+Use [`server/`](server/) as the local demo and participant starting point. It is
+a TypeScript Hono server with stage commands:
+
+- `npm run workshop:1` starts the Workshop 1 brain API.
+- `npm run workshop:2` starts Workshop 1 plus the agent setup and integration routes.
+- `npm run workshop:3` starts Workshops 1-2 plus Mentor Agent web pages and API.
+- `npm run workshop:4` starts Workshops 1-3 plus mock payment execution.
+
+All workshop commands use `http://localhost:3001`. Stop the previous stage with
+`Ctrl+C` before starting the next one.
+
+Before the event, run:
+
+```bash
+cd server
+npm install
+npm run smoke
+```
+
+The smoke test is the end-to-end local proof for the whole track.
+
 Current public event facts from the landing:
 
 - Name: **AI x Blockchain Day**
@@ -32,9 +55,9 @@ Current public event facts from the landing:
 | Time | Workshop | Participant artifact | Proof of completion | Fallback |
 |---|---|---|---|---|
 | 12:00 | Fundamentos IA x Blockchain | Stack map plus minimal backend demo path | Participant can label AI, backend, provider, and blockchain infra in one flow | Facilitator-projected diagram plus mock endpoint output |
-| 12:30 | Lanza tu propio Agente Mentor | Local agent workflow or observed facilitator run | Agent inspects, plans, edits or produces one artifact, then verifies | Pair-programming from facilitator machine |
-| 13:00 | Dale un trabajo a tu Agente | Pokémon Trainer Service | `GET /health`, `GET /pokemon/:name`, `POST /battle` work or are documented with fixtures | Local fixtures and mock NFT ownership |
-| 13:30 | Un Agente que cobra por trabajo | Paid-agent job flow | Unpaid job rejects, authorized/mock-paid job executes and returns a receipt | Mock receipt with explicit production replacement notes |
+| 12:30 | Lanza tu propio Agente Mentor | Pi Coding Agent runtime plus integration contract | Pi is configured, wallet fixture exists, `npm run smoke:2` passes | Facilitator machine with prepared Pi config |
+| 13:00 | Dale un trabajo a tu Agente | Mentor Agent web pages plus API | `GET /` works for users and `POST /mentor-agent` works for agents | Prepared stage 3 implementation |
+| 13:30 | Un Agente que cobra por trabajo | Payment-gated agent job flow | Unpaid job rejects, authorized/mock-paid job executes and returns a receipt | Mock receipt with explicit production replacement notes |
 
 ## Brand and voice contract
 
@@ -109,13 +132,12 @@ Each workshop should leave one of these visible proofs:
 
 If the proof uses a mock, the facilitator must name the production replacement:
 provider API, wallet flow, onchain verification, payment provider, registry,
-indexer, or deployment target.
+or indexer.
 
 ## Content backlog
 
 Useful next additions:
 
-- `demo/` folders with copy-paste starter code for workshops 1, 3, and 4.
 - A facilitator-only `.env.example` that never contains real secrets.
 - Printable one-page cards for the four proof flows.
 - A visual slide template derived from the landing design system.

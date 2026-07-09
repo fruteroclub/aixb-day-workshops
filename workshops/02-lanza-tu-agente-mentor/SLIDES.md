@@ -140,29 +140,27 @@ It can:
 
 Pi is excellent at building.
 
-It isn't meant to run an entire autonomous system.
+Pi is not the product service.
+
+Pi helps us build the service.
 
 ---
 
-# Beyond Builder Agents
+# Builder vs Service
 
-Builder Agents are one piece of a larger system.
+Today we separate two things:
 
-Projects like **OpenClaw** and **Hermes** combine coding agents with additional capabilities:
+```text
+Pi Coding Agent
+        Builder tool
 
-🧠 Memory
+Mentor Agent
+        Service we are building
+```
 
-🪪 Identity
+The Mentor Agent is the service that will later receive jobs and charge with x402.
 
-💳 Wallets
-
-📅 Scheduling
-
-💬 Communication
-
-🤝 Automation
-
-The runtime and integrations are what turn a builder into an autonomous agent.
+Pi helps us design and implement it.
 
 ---
 
@@ -170,60 +168,62 @@ The runtime and integrations are what turn a builder into an autonomous agent.
 
 ```text
 Pi Coding Agent
+        Builder tool
+        │
+        ▼
+Mentor Agent service
         │
         ├── Nebius Token Factory
         │       Reasoning
         │
-        ├── Blockchain Wallet
+        ├── Wallet fixture
         │       Identity
         │
-        ├── GitHub
-        │       Code
-        │
-        ├── Vercel
-        │       Deployment
-        │
-        └── Telegram
-                Communication
+        └── GitHub
+                Code context
 ```
 
-Today, we're building the first version of our integration layer.
+Today, we're preparing the first version of the Mentor Agent service.
+
+x402 payments come later.
+
+The web surface also comes later.
+
+Today is agent setup and integration readiness.
 
 ---
 
 # Today's Workshop
 
-We'll give our agent...
+We'll prepare the Mentor Agent with...
 
-🧠 Intelligence
+🧠 Reasoning
 
 🪪 Identity
 
-💻 Source Code
+💻 Source code context
 
-🚀 Deployment
-
-💬 Communication
+🧾 An integration contract
 
 By the end of this workshop...
 
-Your agent will be able to build.
+Pi will have enough context to build the Mentor Agent in Workshop 3.
 
 ---
 
 # Build
 
-1. Deploy Pi Coding Agent
+1. Install Pi Coding Agent
 
-2. Connect Nebius Token Factory
+2. Configure Pi with Nebius Token Factory
 
 3. Create a blockchain wallet
 
 4. Connect GitHub
 
-5. Connect Vercel
+5. Validate the integration contract
 
-6. Connect Telegram
+6. Ask Pi to document the runtime handoff
 
 Let's build.
 
@@ -235,7 +235,7 @@ Let's build.
 | ------------------- | --------------------------------------------- |
 | 🧠 **Reason**       | Workshop 1 — Give our application a brain. ✅ |
 | 🤖 **Act**          | Workshop 2 — Turn it into an agent. ✅        |
-| 🌐 **Participate**  | Workshop 3 — Give the agent a job.            |
+| 🌐 **Participate**  | Workshop 3 — Build web pages + API.           |
 | 🚀 **Create Value** | Workshop 4 — Let the agent get paid.          |
 
 Each workshop builds on the previous one.

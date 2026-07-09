@@ -1,14 +1,20 @@
-# Exercises - Launch Your Agent
+# Ejercicios - Lanza tu agente mentor
 
-## Ejercicio 1 - LLM vs Agent
+## Ejercicio 1 - Pi vs servicio
 
-Escribe tres diferencias entre un LLM y un agente.
+Completa:
 
-1. 
-2. 
-3. 
+```text
+Pi Coding Agent es:
 
-## Ejercicio 2 - Integration map
+El Mentor Agent service es:
+
+x402 entra después para:
+```
+
+La respuesta correcta debe separar herramienta builder, servicio y cobro.
+
+## Ejercicio 2 - Mapa de piezas
 
 Completa la función de cada pieza:
 
@@ -16,58 +22,47 @@ Completa la función de cada pieza:
 |---|---|
 | Pi Coding Agent |  |
 | Nebius Token Factory |  |
-| Blockchain wallet |  |
-| GitHub |  |
-| Vercel |  |
-| Telegram |  |
+| Hono server |  |
+| Wallet fixture |  |
+| GitHub público |  |
+| Contrato de API |  |
+| Web pages | Se construyen en Workshop 3 |
+| x402 | Se ejecuta en Workshop 4 |
 
-## Ejercicio 3 - Integration labels
+## Ejercicio 3 - Validación de stage 2
 
-Marca el estado de cada integración en tu demo:
-
-| Integración | Estado |
-|---|---|
-| Nebius | `live` / `fixture` / `missing` |
-| Wallet | `fixture` / `missing` |
-| GitHub | `live` / `fixture` / `missing` |
-| Vercel | `configured` / `missing` |
-| Telegram | `live` / `fixture` / `missing` |
-
-## Ejercicio 4 - GitHub proof
-
-Corre o observa:
+Desde `server/`, corre:
 
 ```bash
-curl http://localhost:3002/github/repo/honojs/hono
+npm run smoke:2
 ```
 
 Responde:
 
-1. ¿La integración fue `live` o `fixture`?
-2. ¿Qué repo se consultó?
-3. ¿Qué dato usaría un agente para empezar a trabajar?
+1. ¿Qué rutas valida stage 2?
+2. ¿Por qué no abrimos navegador en este workshop?
+3. ¿Qué pieza usa fixture si falla una integración externa?
+4. ¿Qué queda preparado para Workshop 3?
 
-## Ejercicio 5 - Agent brief
+## Ejercicio 4 - Plan para Pi
 
-Corre o observa:
+Pide a Pi:
 
-```bash
-curl -X POST http://localhost:3002/agent/brief \
-  -H "Content-Type: application/json" \
-  -d '{"owner":"honojs","repo":"hono","goal":"Understand this repo as a builder."}'
+```text
+Inspecciona el stage 2 del servidor Hono.
+
+Crea AGENT_RUNTIME_NOTES.md con:
+- provider y modelo configurados
+- rutas disponibles
+- estado de Nebius, wallet y GitHub
+- qué debe construir Workshop 3 para exponer Mentor Agent a usuarios y agentes
+- qué NO debe construir todavía
 ```
-
-Responde:
-
-1. ¿Qué recibió el agente como objetivo?
-2. ¿Qué integración dio el contexto de código?
-3. ¿Qué integración dio el razonamiento?
-4. ¿Cuál es el siguiente paso del agente?
 
 ## Entrega esperada
 
 Debes poder completar esta frase:
 
 ```text
-Pi builds. Nebius reasons. Wallet identifies. GitHub provides code. Vercel deploys. Telegram communicates.
+Pi es la herramienta builder. Hono contiene las integraciones. Workshop 3 construye la web y la API del Mentor Agent. Workshop 4 ejecuta pagos con x402.
 ```

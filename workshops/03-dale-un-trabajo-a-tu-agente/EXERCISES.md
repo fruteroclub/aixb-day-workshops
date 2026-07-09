@@ -1,16 +1,34 @@
-# Exercises - Give Your Agent a Job
+# Ejercicios - Dale un trabajo a tu agente
 
-## Ejercicio 1 - AI service pattern
+## Ejercicio 1 - Patrón de servicio AI-native
 
-Completa el patrón:
+Completa:
 
 ```text
-External data -> __________ -> Added value
+Datos externos -> __________ -> Valor agregado
 ```
 
-¿Cuál es el external data del Builder Mentor API?
+En este workshop:
+
+```text
+Datos externos:
+Razonamiento:
+Valor agregado:
+```
 
 ## Ejercicio 2 - Input y output
+
+Superficie para usuarios:
+
+```text
+GET /
+```
+
+Superficie para agentes:
+
+```text
+POST /mentor-agent
+```
 
 Input del servicio:
 
@@ -23,36 +41,41 @@ Output del servicio:
 2.
 3.
 
-## Ejercicio 3 - GitHub proof
+## Ejercicio 3 - Pide a Pi que revise web + API
 
-Corre o observa:
+Pide a Pi:
 
-```bash
-curl http://localhost:3003/repo/honojs/hono
+```text
+Inspecciona server/src/routes/web.ts y server/src/routes/mentor-agent.ts.
+Explica cómo la página web llama a POST /mentor-agent.
+No agregues pagos ni login.
 ```
+
+## Ejercicio 4 - Usa la app
+
+Abre:
+
+```text
+http://localhost:3001
+```
+
+Completa:
+
+```text
+Repositorio: https://github.com/honojs/hono
+Objetivo: Quiero entender cómo este proyecto estructura APIs.
+```
+
+Presiona **Analizar con Mentor Agent**.
 
 Responde:
 
-1. ¿La integración fue `live` o `fixture`?
-2. ¿Qué lenguaje principal reportó?
-3. ¿Qué dato usarías para orientar a un builder?
+1. ¿La integración de GitHub fue `live` o `fixture`?
+2. ¿La integración de razonamiento fue `live` o `fixture`?
+3. ¿Qué repositorio recibió el servicio?
+4. ¿Qué recomendación fue más útil?
 
-## Ejercicio 4 - Mentor proof
-
-Corre o observa:
-
-```bash
-curl -X POST http://localhost:3003/mentor \
-  -H "Content-Type: application/json" \
-  -d '{"owner":"honojs","repo":"hono","goal":"I want to learn how this project structures APIs."}'
-```
-
-Responde:
-
-1. ¿Qué goal recibió el servicio?
-2. ¿Qué recomendación fue más útil?
-3. ¿GitHub fue `live` o `fixture`?
-4. ¿Nebius fue `live` o `fixture`?
+5. ¿Cómo consumiría esta misma respuesta otro agente?
 
 ## Ejercicio 5 - Diseña otro job
 
@@ -60,10 +83,30 @@ Escribe otro servicio que un agente podría ofrecer.
 
 ```text
 Input:
-External data:
-AI reasoning:
+Datos externos:
+Razonamiento AI:
 Output:
-Who benefits:
+Quién se beneficia:
+Dónde cobraría x402 después:
+```
+
+## Ejercicio 6 - Plan para Pi
+
+Pide a Pi:
+
+```text
+Usa la respuesta de la app del Mentor Agent como contexto.
+
+Crea BUILDER_MENTOR_PLAN.md con:
+- repositorio analizado
+- objetivo del builder
+- estado de GitHub y razonamiento
+- cómo se expone para usuarios
+- cómo se expone para agentes
+- tres siguientes acciones concretas
+- dónde se ejecutaría x402 en Workshop 4
+
+No describas a Pi como el servicio.
 ```
 
 ## Entrega esperada
@@ -71,5 +114,5 @@ Who benefits:
 Debes poder explicar:
 
 ```text
-The Builder Mentor API turns GitHub repository data into practical guidance for a software builder.
+El Mentor Agent expone una página para usuarios y una API para agentes. Convierte un repositorio público de GitHub y un objetivo en guía práctica para un builder.
 ```

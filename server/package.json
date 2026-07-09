@@ -1,0 +1,34 @@
+{
+  "name": "aixb-day-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Participant Hono server for the AI x Blockchain Day workshop track.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "workshop:1": "WORKSHOP_STAGE=1 PORT=3001 tsx src/server.ts",
+    "workshop:2": "WORKSHOP_STAGE=2 PORT=3001 tsx src/server.ts",
+    "workshop:3": "WORKSHOP_STAGE=3 PORT=3001 tsx src/server.ts",
+    "workshop:4": "WORKSHOP_STAGE=4 PORT=3001 tsx src/server.ts",
+    "pi:configure": "tsx scripts/configure-pi-nebius.ts",
+    "wallet:create": "tsx scripts/create-wallet.ts",
+    "check": "tsc --noEmit",
+    "smoke": "tsx scripts/smoke-test.ts",
+    "smoke:1": "tsx scripts/smoke-test.ts 1",
+    "smoke:2": "tsx scripts/smoke-test.ts 2",
+    "smoke:3": "tsx scripts/smoke-test.ts 3",
+    "smoke:4": "tsx scripts/smoke-test.ts 4"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.4",
+    "hono": "^4.7.11"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.0",
+    "typescript": "^7.0.2"
+  }
+}

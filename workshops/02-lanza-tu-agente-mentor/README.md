@@ -1,493 +1,226 @@
-# Launch Your Agent - Written Guide
+# Workshop 2: Lanza tu agente mentor
 
-This README is the written workshop guide. It adapts the slide source in
-[`../../tmp/02-lanza-tu-agente-eng.md`](../../tmp/02-lanza-tu-agente-eng.md)
-into the build path for Workshop 2: install Pi Coding Agent during the session
-and connect the agent to a Hono integration server.
+En este workshop vas a instalar Pi Coding Agent, configurarlo para usar Nebius
+Token Factory y conectarlo con el servidor Hono que contiene las integraciones
+base del Mentor Agent.
 
-Use the companion files when preparing delivery:
+Este workshop es agent-focused: no se abre navegador, no se construye UI y no se
+presenta una app web. Eso empieza en Workshop 3, cuando Pi construye las páginas
+y conecta la API para usuarios y agentes.
 
-- [`SLIDES.md`](SLIDES.md) - presentation structure.
-- [`FACILITATOR_GUIDE.md`](FACILITATOR_GUIDE.md) - timing, risks and fallback.
-- [`EXERCISES.md`](EXERCISES.md) - participant exercises.
+Pi Coding Agent no es el servicio. Pi es la herramienta builder que nos ayuda a
+construir el servicio. El servicio que queremos preparar es Mentor Agent, y más
+adelante ese servicio podrá cobrar por trabajo usando x402.
 
-Este workshop convierte la aplicación del Workshop 1 en un primer servidor de
-integraciones para un agente. Pi Coding Agent no es prerequisito para entrar al
-workshop. Se instala y se configura durante la sesión como parte del build.
-
-La secuencia del workshop es:
+La secuencia correcta es:
 
 ```text
-1. Deploy Pi Coding Agent
-2. Connect Nebius Token Factory
-3. Create a blockchain wallet
-4. Connect GitHub
-5. Connect Vercel
-6. Connect Telegram
+1. Instalar Pi Coding Agent
+2. Configurar Pi para Nebius Token Factory
+3. Crear una wallet de demo
+4. Conectar GitHub público
+5. Validar el contrato de integraciones
+6. Pedir a Pi que documente el estado del agente
 ```
 
-## Resultado visible
+Pi se instala durante el workshop. No es requisito llegar con Pi instalado.
 
-Al final tendrás:
+## Qué vas a tener al final
 
-- Pi Coding Agent instalado o abierto en la máquina del participante o del speaker.
-- Un servidor Hono de integraciones que muestra el estado de integraciones.
-- Una identidad wallet de demo, marcada como `fixture`.
-- Una integración GitHub que lee información de un repo público o devuelve fixture.
-- Un endpoint que combina GitHub + Nebius para crear un brief de trabajo para el agente.
-- Checks para Vercel y Telegram sin obligar a exponer secrets.
+- Pi Coding Agent instalado.
+- Pi configurado con provider `nebius-token-factory`.
+- Pi apuntando al modelo de Nebius definido para el evento.
+- El servidor Hono corriendo en stage 2.
+- Una wallet de demo como identidad `fixture`.
+- Conexión a repositorios públicos de GitHub sin token.
+- Un mapa claro de qué tendrá que conectar Workshop 3.
 
-## Requisitos de entrada
+## Requisitos
 
-Los participantes necesitan terminal, Git y Node.js 20 o superior. No necesitan
-tener Pi Coding Agent instalado antes de llegar. Eso sucede en el Paso 1.
+- Node.js 20 o superior.
+- Terminal.
+- Git.
+- `server/.env` con `NEBIUS_API_KEY`, `NEBIUS_MODEL` y `NEBIUS_BASE_URL`.
+- Un repositorio público de GitHub para probar.
 
-## Paso 1 - Deploy Pi Coding Agent
+## 1. Instala Pi Coding Agent
 
-Instala Pi con el comando oficial de npm:
+Desde cualquier terminal:
 
 ```bash
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+pi --version
 ```
 
-Abre Pi dentro de la carpeta del proyecto cuando llegue el momento:
+Si `pi --version` responde, sigue al siguiente paso.
+
+## 2. Carga las variables de Nebius
+
+Entra al servidor del workshop:
 
 ```bash
-pi
+cd server
+npm install
 ```
 
-Para autenticar el modelo, usa `/login` dentro de Pi o configura el provider por
-variables de entorno según el setup del evento. Si una máquina se atora, el
-speaker continúa con la máquina proyectada.
+Carga las variables que ya están en `server/.env`:
 
-Primer prompt para Pi:
+```bash
+set -a
+source .env
+set +a
+```
+
+Verifica sin imprimir secrets:
+
+```bash
+test -n "$NEBIUS_API_KEY" && echo "NEBIUS_API_KEY cargada"
+test -n "$NEBIUS_MODEL" && echo "NEBIUS_MODEL cargado: $NEBIUS_MODEL"
+echo "NEBIUS_BASE_URL=${NEBIUS_BASE_URL:-https://api.tokenfactory.nebius.com/v1}"
+```
+
+No pegues la API key en chat, slides, screenshots, commits o issues.
+
+## 3. Configura Pi para Nebius Token Factory
+
+Pi necesita un provider OpenAI-compatible apuntando a Token Factory y un modelo
+default.
+
+Ejecuta:
+
+```bash
+npm run pi:configure
+```
+
+El script escribe:
 
 ```text
-You are my builder agent for AI x Blockchain Day.
-
-We are building a small Hono integration server.
-First inspect the project. Do not edit files yet.
-Explain what exists, what is missing, and what command should verify the project.
+~/.pi/agent/models.json
+~/.pi/agent/settings.json
 ```
 
-## Paso 2 - Crea el servidor Hono de integraciones
+`models.json` registra:
+
+- Provider: `nebius-token-factory`.
+- Base URL: `https://api.tokenfactory.nebius.com/v1/`.
+- API: `openai-completions`.
+- API key: referencia a `$NEBIUS_API_KEY`, no el valor literal.
+- Modelo: el valor de `NEBIUS_MODEL`.
+
+`settings.json` deja a Pi usando ese provider/modelo por default.
+
+## 4. Smoke test de Pi con Nebius
+
+Con `NEBIUS_API_KEY` cargada en la misma terminal, ejecuta:
 
 ```bash
-mkdir aixb-ws02-agent-server
-cd aixb-ws02-agent-server
-npm init -y
-npm pkg set type=module
-npm install hono @hono/node-server
-mkdir -p src scripts
+pi --no-tools --no-context-files --no-session -p \
+  "Di que provider y modelo estas configurado para usar, y detente."
 ```
 
-Agrega scripts:
+Resultado esperado:
+
+- Pi debe mencionar `nebius-token-factory`.
+- Pi debe mencionar el modelo definido en `NEBIUS_MODEL`.
+
+Si Pi menciona OpenAI o cualquier otro provider, revisa:
 
 ```bash
-npm pkg set scripts.start="node src/server.js"
-npm pkg set scripts.check="node --check src/server.js && node --check scripts/create-wallet.js"
+cat "$HOME/.pi/agent/settings.json"
+cat "$HOME/.pi/agent/models.json"
 ```
 
-Crea `.gitignore`:
+También revisa si tienes un `OPENAI_API_KEY` global que esté tomando prioridad.
+
+## 5. Levanta el stage de integraciones
+
+Desde `server/`:
 
 ```bash
-cat > .gitignore <<'EOF'
-node_modules/
-.env
-.agent-wallet.fixture.json
-EOF
-```
-
-Crea `.env.example`:
-
-```bash
-cat > .env.example <<'EOF'
-NEBIUS_API_KEY=
-NEBIUS_MODEL=
-NEBIUS_BASE_URL=https://api.tokenfactory.nebius.com/v1
-GITHUB_TOKEN=
-VERCEL_PROJECT_URL=
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_CHAT_ID=
-EOF
-```
-
-## Paso 3 - Connect Nebius Token Factory
-
-El servidor de integraciones llama a Nebius solo si existen `NEBIUS_API_KEY` y `NEBIUS_MODEL`.
-Sin esas variables, usa fixture.
-
-```bash
-export NEBIUS_API_KEY="replace-with-event-key"
-export NEBIUS_MODEL="replace-with-model-from-nebius-playground"
-export NEBIUS_BASE_URL="https://api.tokenfactory.nebius.com/v1"
-```
-
-No proyectes la API key. Si el evento reparte credenciales, pégalas fuera de la
-vista del público.
-
-## Paso 4 - Create a blockchain wallet
-
-Para este workshop la wallet es identidad de demo. No usa mainnet, no tiene
-fondos y se etiqueta como `fixture`.
-
-Crea `scripts/create-wallet.js`:
-
-```bash
-cat > scripts/create-wallet.js <<'EOF'
-import { createHash, randomBytes } from "node:crypto";
-import { writeFileSync } from "node:fs";
-
-const privateKey = `0x${randomBytes(32).toString("hex")}`;
-const address = `0x${createHash("sha256").update(privateKey).digest("hex").slice(-40)}`;
-
-const wallet = {
-  mode: "fixture",
-  network: "no-mainnet",
-  address,
-  privateKey,
-  warning: "Demo identity only. Do not fund this wallet.",
-  createdAt: new Date().toISOString()
-};
-
-writeFileSync(".agent-wallet.fixture.json", JSON.stringify(wallet, null, 2));
-
-console.log(`Created fixture wallet identity: ${address}`);
-console.log("Stored in .agent-wallet.fixture.json. Do not commit this file.");
-EOF
-```
-
-Genera la identidad:
-
-```bash
-node scripts/create-wallet.js
-```
-
-## Paso 5 - Connect GitHub with Hono
-
-Crea `src/server.js`:
-
-```bash
-cat > src/server.js <<'EOF'
-import { readFile } from "node:fs/promises";
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
-
-const app = new Hono();
-
-const PORT = Number(process.env.PORT ?? 3002);
-const NEBIUS_BASE_URL = process.env.NEBIUS_BASE_URL ?? "https://api.tokenfactory.nebius.com/v1";
-
-function configured(value) {
-  return Boolean(value && value.trim());
-}
-
-async function readWallet() {
-  try {
-    const raw = await readFile(".agent-wallet.fixture.json", "utf8");
-    const wallet = JSON.parse(raw);
-    return {
-      integration: "fixture",
-      address: wallet.address,
-      network: wallet.network,
-      warning: wallet.warning
-    };
-  } catch {
-    return {
-      integration: "missing",
-      message: "Run node scripts/create-wallet.js first."
-    };
-  }
-}
-
-function fixtureRepo(owner, repo) {
-  return {
-    integration: "fixture",
-    owner,
-    repo,
-    name: repo,
-    fullName: `${owner}/${repo}`,
-    description: "Fixture repository used when GitHub is not reachable.",
-    stars: 0,
-    defaultBranch: "main",
-    language: "TypeScript"
-  };
-}
-
-async function getGitHubRepo(owner, repo) {
-  const headers = {
-    accept: "application/vnd.github+json",
-    "user-agent": "aixb-day-workshop"
-  };
-
-  if (configured(process.env.GITHUB_TOKEN)) {
-    headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  }
-
-  try {
-    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
-    if (!response.ok) {
-      throw new Error(`GitHub returned ${response.status}`);
-    }
-
-    const data = await response.json();
-    return {
-      integration: "live",
-      owner,
-      repo,
-      name: data.name,
-      fullName: data.full_name,
-      description: data.description,
-      stars: data.stargazers_count,
-      defaultBranch: data.default_branch,
-      language: data.language
-    };
-  } catch (error) {
-    return {
-      ...fixtureRepo(owner, repo),
-      warning: error.message
-    };
-  }
-}
-
-function fixtureBrief({ repo, goal }) {
-  return {
-    integration: "fixture",
-    brief: [
-      `Repository: ${repo.fullName}`,
-      `Goal: ${goal || "No goal provided"}`,
-      "Suggested next action: ask Pi to inspect the repo, identify the stack and propose a first small task.",
-      "Verification: run the project's documented check command before claiming success."
-    ].join("\n")
-  };
-}
-
-async function callNebiusForBrief({ repo, goal }) {
-  if (!configured(process.env.NEBIUS_API_KEY) || !configured(process.env.NEBIUS_MODEL)) {
-    return fixtureBrief({ repo, goal });
-  }
-
-  const response = await fetch(`${NEBIUS_BASE_URL}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${process.env.NEBIUS_API_KEY}`
-    },
-    body: JSON.stringify({
-      model: process.env.NEBIUS_MODEL,
-      messages: [
-        {
-          role: "system",
-          content: "Create a concise builder-agent task brief from GitHub repository metadata."
-        },
-        {
-          role: "user",
-          content: JSON.stringify({ repo, goal })
-        }
-      ]
-    })
-  });
-
-  if (!response.ok) {
-    throw new Error(`Nebius returned ${response.status}: ${await response.text()}`);
-  }
-
-  const data = await response.json();
-  return {
-    integration: "live",
-    provider: "nebius-token-factory",
-    model: process.env.NEBIUS_MODEL,
-    brief: data.choices?.[0]?.message?.content ?? ""
-  };
-}
-
-app.get("/health", (c) => {
-  return c.json({
-    ok: true,
-    service: "aixb-ws02-agent-server",
-    framework: "hono",
-    integration: "live"
-  });
-});
-
-app.get("/integrations", async (c) => {
-  return c.json({
-    nebius: configured(process.env.NEBIUS_API_KEY) && configured(process.env.NEBIUS_MODEL) ? "live" : "fixture",
-    wallet: await readWallet(),
-    github: configured(process.env.GITHUB_TOKEN) ? "live-authenticated" : "live-public-or-fixture",
-    vercel: configured(process.env.VERCEL_PROJECT_URL) ? "configured" : "missing",
-    telegram: configured(process.env.TELEGRAM_BOT_TOKEN) && configured(process.env.TELEGRAM_CHAT_ID) ? "configured" : "missing"
-  });
-});
-
-app.get("/wallet", async (c) => {
-  return c.json(await readWallet());
-});
-
-app.get("/github/repo/:owner/:repo", async (c) => {
-  const repo = await getGitHubRepo(c.req.param("owner"), c.req.param("repo"));
-  return c.json(repo);
-});
-
-app.post("/agent/brief", async (c) => {
-  const body = await c.req.json().catch(() => ({}));
-  const owner = body.owner ?? "frutero";
-  const repoName = body.repo ?? "example";
-  const repo = await getGitHubRepo(owner, repoName);
-  const brief = await callNebiusForBrief({ repo, goal: body.goal });
-
-  return c.json({
-    route: "/agent/brief",
-    github: repo.integration,
-    reasoning: brief.integration,
-    repo,
-    brief
-  });
-});
-
-app.get("/vercel/status", (c) => {
-  return c.json({
-    integration: configured(process.env.VERCEL_PROJECT_URL) ? "configured" : "missing",
-    projectUrl: process.env.VERCEL_PROJECT_URL ?? null,
-    note: "Use vercel login and vercel link during the workshop if deployment is enabled."
-  });
-});
-
-app.post("/telegram/test", async (c) => {
-  if (!configured(process.env.TELEGRAM_BOT_TOKEN) || !configured(process.env.TELEGRAM_CHAT_ID)) {
-    return c.json({
-      integration: "fixture",
-      sent: false,
-      message: "Telegram credentials are missing. This is a safe fixture response."
-    });
-  }
-
-  const text = "AI x Blockchain Day integration test message.";
-  const response = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      chat_id: process.env.TELEGRAM_CHAT_ID,
-      text
-    })
-  });
-
-  return c.json({
-    integration: "live",
-    sent: response.ok,
-    status: response.status
-  });
-});
-
-serve({
-  fetch: app.fetch,
-  port: PORT
-});
-
-console.log(`Agent integration server running on http://localhost:${PORT}`);
-EOF
-```
-
-## Paso 6 - Verifica GitHub + Nebius
-
-```bash
+npm run wallet:create
 npm run check
-npm start
+npm run smoke:2
+npm run workshop:2
 ```
 
-En otra terminal:
+El servidor queda en:
 
-```bash
-curl http://localhost:3002/health
-curl http://localhost:3002/integrations
-curl http://localhost:3002/wallet
-curl http://localhost:3002/github/repo/honojs/hono
-curl -X POST http://localhost:3002/agent/brief \
-  -H "Content-Type: application/json" \
-  -d '{"owner":"honojs","repo":"hono","goal":"Understand whether this repo is a good API framework for agent services."}'
+```text
+http://localhost:3001
 ```
 
-Si `NEBIUS_API_KEY` y `NEBIUS_MODEL` no existen, `/agent/brief` devuelve un
-brief `fixture`. Si GitHub falla, usa metadata `fixture`.
+No abras navegador en este workshop. El servidor escucha en ese puerto, pero la
+superficie web se construye en Workshop 3.
 
-## Paso 7 - Connect Vercel
+Si todavía tienes corriendo el servidor del Workshop 1, detenlo primero con
+`Ctrl+C`. Todos los workshops usan el mismo puerto local.
 
-Este workshop no depende de deploy para ser exitoso, pero sí deja el camino
-preparado.
+`npm run wallet:create` genera `.aixb-wallet.fixture.json`. Ese archivo está
+ignorado por git y no debe commitearse.
 
-```bash
-npm install -g vercel
-vercel login
-vercel link
+## 6. Qué valida stage 2
+
+Stage 2 deja listas estas piezas:
+
+```text
+GET /integrations
+GET /wallet
+GET /github/repo/:owner/:repo
 ```
 
-Guarda la URL si ya existe un proyecto:
+No hay UI en este stage. Tampoco se cobra nada todavía.
 
-```bash
-export VERCEL_PROJECT_URL="https://replace-with-project-url"
-curl http://localhost:3002/vercel/status
-```
+El servidor solo consulta repositorios públicos. Primero intenta la API pública
+de GitHub; si esa cuota anónima está limitada, usa la página pública del repo y
+el README crudo. Si todo eso falla, cae a `fixture` para que el workshop pueda
+continuar.
 
-Si el login falla, marca Vercel como `missing` y continúa.
+## 7. Primer prompt para Pi
 
-## Paso 8 - Connect Telegram
-
-Configura credenciales solo si el speaker ya tiene bot y chat preparados:
-
-```bash
-export TELEGRAM_BOT_TOKEN="replace-with-bot-token"
-export TELEGRAM_CHAT_ID="replace-with-chat-id"
-curl -X POST http://localhost:3002/telegram/test
-```
-
-Sin credenciales, el endpoint responde en `fixture`.
-
-## Paso 9 - Pide a Pi que use el servidor de integraciones
-
-Dentro del proyecto, abre Pi:
+Abre Pi desde la raíz del repo o desde `server/`:
 
 ```bash
 pi
 ```
 
-Prompt:
+Prompt sugerido:
 
 ```text
-You are my builder agent for AI x Blockchain Day.
+Eres mi agente builder para AI x Blockchain Day.
 
-Use the local Hono integration server as your context.
+Estamos usando Pi Coding Agent con Nebius Token Factory.
+Pi no es el servicio final. Pi nos va a ayudar a construir un servicio llamado Mentor Agent.
 
-First, inspect the project.
-Then explain what these integrations do:
-- Nebius Token Factory
-- fixture blockchain wallet
-- GitHub
-- Vercel
-- Telegram
+Inspecciona:
+- server/src/routes/agent.ts
+- server/src/integrations/
+- server/src/workshop-gates.ts
+- server/src/config.ts
 
-Do not change files yet. Tell me which curl commands prove the integration server works.
+No edites archivos todavía.
+Crea AGENT_RUNTIME_NOTES.md con:
+- provider y modelo configurados para Pi
+- rutas disponibles en stage 2
+- estado esperado de Nebius, wallet y GitHub
+- qué debe construir Workshop 3: web pages + API para usuarios y agentes
+- dónde podría entrar x402 en Workshop 4
 ```
 
-Después pide una tarea pequeña:
+Si Pi se atora en una máquina, continúa con la demo proyectada. Pi es parte del
+workshop, no una barrera de entrada.
+
+## Criterio de éxito
+
+El workshop está validado cuando puedes mostrar:
+
+- `pi --version` responde.
+- Pi reporta `nebius-token-factory` y el modelo de `NEBIUS_MODEL`.
+- `npm run smoke:2` pasa.
+- `.aixb-wallet.fixture.json` existe y no está en git.
+- Pi genera `AGENT_RUNTIME_NOTES.md` sin confundirse con el servicio final.
+
+La frase técnica del workshop:
 
 ```text
-Create a short AGENT_BRIEF.md file from the /agent/brief endpoint.
-Keep it concise. Include the repo, goal, integration labels and the next action for the agent.
-After editing, tell me what command verifies the Hono server syntax.
+Pi construye. Hono conecta. Nebius razona. GitHub trae contexto. La wallet introduce identidad. La web y la API pública del Mentor Agent se construyen en Workshop 3.
 ```
-
-## Cierre
-
-La frase de cierre:
-
-```text
-Pi is the builder. Hono is the integration server. Nebius gives reasoning. Wallet gives identity. GitHub gives code. Vercel gives deployment. Telegram gives communication.
-```
-
-## Checklist para speakers
-
-- No pidas Pi como prerequisito. Instálalo durante el workshop.
-- Usa Hono como servidor de integración.
-- No proyectes Nebius, GitHub, Vercel o Telegram secrets.
-- Ten listo un fallback fixture para cada integración.
-- La prueba mínima es `GET /integrations`, `GET /github/repo/:owner/:repo` y `POST /agent/brief`.
